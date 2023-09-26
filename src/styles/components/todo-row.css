@@ -1,0 +1,10 @@
+.toDoRow{
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    border-color:"black";
+}
+.toDoRow:hover{
+    background-color: gainsboro;
+}

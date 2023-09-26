@@ -1,23 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
+import "../styles/components/todo-row.css";
 interface ToDoRowProps {
-  name: string;
+  name: string,
+  rowState:Boolean,
+  rowOnClick:Function 
 }
-export default function ToDoRow({ name }: ToDoRowProps) {
+export default function ToDoRow({ name, rowState, rowOnClick }: ToDoRowProps) {
   return (
-    <Container>
-      <Col md={2}></Col>
-      <Col md={8}>
-        <Row>
-          <Col md={4}>
-            <input type="checkbox"></input>
-          </Col>
-          <Col md={4}>
-            <p>{name}</p>
-          </Col>
-        </Row>
+    <Row className="toDoRow" onClick={() => {
+      rowOnClick(!rowState)
+    }}>
+      <Col xs={6} lg={2}>
+        <input type="checkbox"></input>
       </Col>
-      <Col md={2}></Col>
-    </Container>
+      <Col xs={6} lg={10}>{name}</Col>
+    </Row>
   );
 }

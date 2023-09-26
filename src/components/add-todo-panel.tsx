@@ -1,4 +1,7 @@
-function AddToDoPanel(){
-    
+export default function AddToDoPanel(){
+ return(
+    <div>
+        <p>The Panel is Open!!!</p>
+    </div>
+ )   
 }
-export default AddToDoPanel;
