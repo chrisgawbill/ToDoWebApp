@@ -10,7 +10,7 @@ export default function Home() {
     <Container>
       <Row>
         <Col md={8}>{IterateToDoList(toDoList, addPanelState, setAddPanelState)}</Col>
-        <Col md={4} style={{display:ConvertAddPanelState(addPanelState)}}><AddToDoPanel/></Col>
+        <Col md={4} style={{display:ConvertAddPanelState(addPanelState)}}><AddToDoPanel name="TEST" status={false} /></Col>
       </Row>
     </Container>
   );
