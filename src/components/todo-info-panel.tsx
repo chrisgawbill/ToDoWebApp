@@ -3,24 +3,34 @@ import { Todo, isCompleted } from "../data/Todo";
 import { useEffect, useState } from "react";
 
 interface ToDoInfoPanelProps {
-  toDoItem: Todo,
-  setInfoPanelState:Function,
-  updateToDo:Function
+  toDoItem: Todo;
+  setInfoPanelState: Function;
+  updateToDo: Function;
 }
-export default function ToDoInfoPanel({ toDoItem, setInfoPanelState, updateToDo }: ToDoInfoPanelProps) {
+export default function ToDoInfoPanel({
+  toDoItem,
+  setInfoPanelState,
+  updateToDo,
+}: ToDoInfoPanelProps) {
   const [toDoItemName, setToDoItemName] = useState<string>("");
-  const [toDoItemStatus, setToDoItemStatus] = useState<isCompleted>(isCompleted.Completed);
+  const [toDoItemStatus, setToDoItemStatus] = useState<isCompleted>(
+    isCompleted.Completed
+  );
   useEffect(() => {
-    setToDoItemName(toDoItem.name)
-    setToDoItemStatus(toDoItem.completed)
-  },[toDoItem])
+    setToDoItemName(toDoItem.name);
+    setToDoItemStatus(toDoItem.completed);
+  }, [toDoItem]);
   return (
     <Form onSubmit={EditToDoFormSubmit}>
       <Col md={1}>
         <Row>
-          <Button onClick={() => {
-            setInfoPanelState(false)
-          }}>X</Button>
+          <Button
+            onClick={() => {
+              setInfoPanelState(false);
+            }}
+          >
+            X
+          </Button>
         </Row>
       </Col>
       <Col md={11}>
@@ -60,10 +70,14 @@ export default function ToDoInfoPanel({ toDoItem, setInfoPanelState, updateToDo 
       </Col>
     </Form>
   );
-  function EditToDoFormSubmit(e:React.FormEvent<EventTarget>){
-      e.preventDefault()
-      const toDo:Todo = {id: toDoItem.id, name: toDoItemName, completed: toDoItemStatus }
-      updateToDo(toDo)
-      setInfoPanelState(false)
+  function EditToDoFormSubmit(e: React.FormEvent<EventTarget>) {
+    e.preventDefault();
+    const toDo: Todo = {
+      id: toDoItem.id,
+      name: toDoItemName,
+      completed: toDoItemStatus,
+    };
+    updateToDo(toDo);
+    setInfoPanelState(false);
   }
 }

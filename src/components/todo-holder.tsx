@@ -20,12 +20,12 @@ export default function ToDoHolder({
   setInfoPanelState,
   setCurrentToDoItem,
 }: ToDoHolderProps) {
-    const [completedToDos, setCompletedToDos] = useState<Todo[]>([])
-    const [uncompletedToDos, setUncompletedToDos] = useState<Todo[]>([])
-    useEffect(() => {
-        setCompletedToDos(FilterToDoList(toDoList, isCompleted.Completed))
-        setUncompletedToDos(FilterToDoList(toDoList, isCompleted.NotCompleted))
-    },[toDoList])
+  const [completedToDos, setCompletedToDos] = useState<Todo[]>([]);
+  const [uncompletedToDos, setUncompletedToDos] = useState<Todo[]>([]);
+  useEffect(() => {
+    setCompletedToDos(FilterToDoList(toDoList, isCompleted.Completed));
+    setUncompletedToDos(FilterToDoList(toDoList, isCompleted.NotCompleted));
+  }, [toDoList]);
   return (
     <Container>
       <Container id="notCompletedToDos">
@@ -43,10 +43,10 @@ export default function ToDoHolder({
       </Container>
       <Container id="completedToDos">
         <Row>
-            <h2>Completed Tasks</h2>
+          <h2>Completed Tasks</h2>
         </Row>
         <Row>
-        {IterateToDoList(
+          {IterateToDoList(
             completedToDos,
             infoPanelState,
             setInfoPanelState,
@@ -84,7 +84,7 @@ function IterateToDoList(
     ></ToDoRow>
   ));
 }
-function FilterToDoList(toDoList:Todo[], filterBy:isCompleted){
-    const filteredList = toDoList.filter((toDo) => toDo.completed === filterBy)
-    return filteredList
+function FilterToDoList(toDoList: Todo[], filterBy: isCompleted) {
+  const filteredList = toDoList.filter((toDo) => toDo.completed === filterBy);
+  return filteredList;
 }

@@ -11,7 +11,7 @@ export default function Home() {
   const [toDoList, setToDoList] = useState<Todo[]>(initialToDoData);
   const [infoPanelState, setInfoPanelState] = useState<Boolean>(false);
   const [currentToDoItem, setCurrentToDoItem] = useState<Todo>(
-    new Todo(0,"", isCompleted.NotCompleted)
+    new Todo(0, "", isCompleted.NotCompleted)
   );
   return (
     <Container>
@@ -31,26 +31,28 @@ export default function Home() {
     </Container>
   );
   /**
- *
- * @param addPanelState
- * @returns display setting for the panel
- */
-function ConvertInfoPanelState() {
-  if (infoPanelState === true) {
-    return "inline-block";
+   *
+   * @param addPanelState
+   * @returns display setting for the panel
+   */
+  function ConvertInfoPanelState() {
+    if (infoPanelState === true) {
+      return "inline-block";
+    }
+    return "none";
   }
-  return "none";
-}
-/**
- * 
- * @param updatedToDo 
- */
-  function UpdateToDo(updatedToDo:Todo){
-    const updatedToDoList:Todo[] = [...toDoList]
-    const index = updatedToDoList.findIndex((toDo) => toDo.id === updatedToDo.id)
-    updatedToDoList[index].name = updatedToDo.name
-    updatedToDoList[index].completed = updatedToDo.completed
-    setToDoList(updatedToDoList)
+  /**
+   *
+   * @param updatedToDo
+   */
+  function UpdateToDo(updatedToDo: Todo) {
+    const updatedToDoList: Todo[] = [...toDoList];
+    const index = updatedToDoList.findIndex(
+      (toDo) => toDo.id === updatedToDo.id
+    );
+    updatedToDoList[index].name = updatedToDo.name;
+    updatedToDoList[index].completed = updatedToDo.completed;
+    setToDoList(updatedToDoList);
   }
 }
 /**
@@ -58,8 +60,18 @@ function ConvertInfoPanelState() {
  * @param toDoItem
  * @returns ToDoInfoPanel Component
  */
-function AddPanelWithInfo(toDoItem: Todo, setInfoPanelState:Function, updateToDo:Function) {
+function AddPanelWithInfo(
+  toDoItem: Todo,
+  setInfoPanelState: Function,
+  updateToDo: Function
+) {
   if (toDoItem.name !== "") {
-    return <ToDoInfoPanel toDoItem={toDoItem} setInfoPanelState={setInfoPanelState} updateToDo={updateToDo} />;
+    return (
+      <ToDoInfoPanel
+        toDoItem={toDoItem}
+        setInfoPanelState={setInfoPanelState}
+        updateToDo={updateToDo}
+      />
+    );
   }
 }
