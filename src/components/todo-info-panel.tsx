@@ -1,18 +1,28 @@
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { Todo, isCompleted } from "../data/Todo";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface ToDoInfoPanelProps {
-  toDoItem: Todo;
+  toDoItem: Todo,
+  setInfoPanelState:Function
 }
-export default function ToDoInfoPanel({ toDoItem }: ToDoInfoPanelProps) {
-  const [toDoItemName, setToDoItemName] = useState<string>(toDoItem.name);
-  const [toDoItemStatus, setToDoItemStatus] = useState<isCompleted>(
-    toDoItem.completed
-  );
+export default function ToDoInfoPanel({ toDoItem, setInfoPanelState }: ToDoInfoPanelProps) {
+  const [toDoItemName, setToDoItemName] = useState<string>("");
+  const [toDoItemStatus, setToDoItemStatus] = useState<isCompleted>(isCompleted.Completed);
+  useEffect(() => {
+    setToDoItemName(toDoItem.name)
+    setToDoItemStatus(toDoItem.completed)
+  },[toDoItem])
   return (
     <Form>
-      <Col>
+      <Col md={1}>
+        <Row>
+          <Button onClick={() => {
+            setInfoPanelState(false)
+          }}>X</Button>
+        </Row>
+      </Col>
+      <Col md={11}>
         <Row>
           <Form.Control
             type="text"

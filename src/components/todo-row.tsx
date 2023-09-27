@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import "../styles/components/todo-row.css";
-import { Todo, isCompleted } from "../data/Todo";
+import { Todo } from "../data/Todo";
 interface ToDoRowProps {
   toDoItem: Todo,
   rowState:Boolean,
@@ -11,7 +10,7 @@ interface ToDoRowProps {
 export default function ToDoRow({ toDoItem, rowState, rowOnClick, currentToDoSelected }: ToDoRowProps) {
   return (
     <Row className="toDoRow" onClick={() => {
-      rowOnClick(!rowState)
+      rowOnClick(true)
       currentToDoSelected(toDoItem)
     }}>
       <Col xs={6} lg={2}>
