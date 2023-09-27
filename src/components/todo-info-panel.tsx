@@ -2,10 +2,10 @@ import { Col, Row } from "react-bootstrap";
 import { Todo } from "../data/Todo";
 import { useState } from "react";
 
-interface AddToDoPanelProps {
+interface ToDoInfoPanelProps {
   toDoItem: Todo;
 }
-export default function AddToDoPanel({ toDoItem }: AddToDoPanelProps) {
+export default function ToDoInfoPanel({ toDoItem }: ToDoInfoPanelProps) {
   const [toDoItemName, setToDoItemName] = useState<string>(toDoItem.name);
   return (
     <Col>

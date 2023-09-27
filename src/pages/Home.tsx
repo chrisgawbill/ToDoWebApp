@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Todo, initialToDoData } from "../data/Todo";
 import ToDoRow from "../components/todo-row";
 import { Col, Container, Row } from "react-bootstrap";
-import AddToDoPanel from "../components/add-todo-panel";
+import ToDoInfoPanel from "../components/todo-info-panel";
 /**
  * 
  * @returns HomePage with Components loaded
@@ -51,10 +51,10 @@ function ConvertAddPanelState(addPanelState:Boolean){
 /**
  * 
  * @param toDoItem 
- * @returns AddToDoPanel Component
+ * @returns ToDoInfoPanel Component
  */
 function AddPanelWithInfo(toDoItem:Todo){
-  if(toDoItem.name != ""){
-    return <AddToDoPanel toDoItem = {toDoItem}/>
+  if(toDoItem.name !== ""){
+    return <ToDoInfoPanel toDoItem = {toDoItem}/>
   }
 }
