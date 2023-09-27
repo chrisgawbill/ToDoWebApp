@@ -1,17 +1,17 @@
 import { Col, Row } from "react-bootstrap"
+import { Todo } from "../data/Todo"
 
 interface AddToDoPanelProps{
-    name:string,
-    status:Boolean
+    toDoItem:Todo
 }
-export default function AddToDoPanel({name, status}: AddToDoPanelProps){
+export default function AddToDoPanel({toDoItem}: AddToDoPanelProps){
  return(
     <Col>
         <Row>
-           <h2>{name}</h2> 
+           <h2>{toDoItem.name}</h2> 
         </Row>
         <Row>
-            <p>Status: </p>{ConvertStatusBool(status)}
+            <p>Status: </p>{ConvertStatusBool(toDoItem.completed)}
         </Row>
     </Col>
  )   
