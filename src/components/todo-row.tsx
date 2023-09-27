@@ -15,7 +15,9 @@ export default function ToDoRow({ toDoItem, rowState, rowOnClick, currentToDoSel
       currentToDoSelected(toDoItem)
     }}>
       <Col xs={6} lg={2}>
-        <input type="checkbox"></input>
+        <input type="checkbox" onClick={() => {
+          toDoItem.completed = !toDoItem.completed
+        }}></input>
       </Col>
       <Col xs={6} lg={10}>{toDoItem.name}</Col>
     </Row>
