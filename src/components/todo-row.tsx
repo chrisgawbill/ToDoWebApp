@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import "../styles/components/todo-row.css";
-import { Todo } from "../data/Todo";
+import { Todo, isCompleted } from "../data/Todo";
 interface ToDoRowProps {
   toDoItem: Todo,
   rowState:Boolean,
@@ -16,7 +16,12 @@ export default function ToDoRow({ toDoItem, rowState, rowOnClick, currentToDoSel
     }}>
       <Col xs={6} lg={2}>
         <input type="checkbox" onClick={() => {
-          toDoItem.completed = !toDoItem.completed
+          if(toDoItem.completed === 0){
+            toDoItem.completed = 1
+          }
+          else{
+            toDoItem.completed = 0
+          }
         }}></input>
       </Col>
       <Col xs={6} lg={10}>{toDoItem.name}</Col>

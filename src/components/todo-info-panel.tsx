@@ -1,5 +1,5 @@
-import { Col, Row } from "react-bootstrap";
-import { Todo } from "../data/Todo";
+import { Col, Form, Row } from "react-bootstrap";
+import { Todo, isCompleted } from "../data/Todo";
 import { useState } from "react";
 
 interface ToDoInfoPanelProps {
@@ -7,27 +7,36 @@ interface ToDoInfoPanelProps {
 }
 export default function ToDoInfoPanel({ toDoItem }: ToDoInfoPanelProps) {
   const [toDoItemName, setToDoItemName] = useState<string>(toDoItem.name);
+  const [toDoItemStatus, setToDoItemStatus] = useState<isCompleted>(toDoItem.completed)
   return (
-    <Col>
-      <Row>
-        <h2>
-          <input
+    <Form>
+      <Col>
+        <Row>
+          <Form.Control
             type="text"
             value={toDoItemName}
             style={{ border: "none", width: "100%" }}
+            onChange={(event) => {
+              setToDoItemName(event.target.value);
+            }}
           />
-        </h2>
-      </Row>
-      <Row>
-        <p>Status: </p>
-        {ConvertStatusBool(toDoItem.completed)}
-      </Row>
-    </Col>
+        </Row>
+        <Row>
+          <Form.Group>
+            <Form.Label>Status: </Form.Label>
+            <Form.Select value={toDoItemStatus} onChange={(event) => {
+              if(event.target.value === "0"){
+                setToDoItemStatus(isCompleted.NotCompleted)
+              }else{
+                setToDoItemStatus(isCompleted.Completed)
+              }
+            }}>
+              <option value={isCompleted.NotCompleted}>Not Completed</option>
+              <option value={isCompleted.Completed}>Completed</option>
+            </Form.Select>
+          </Form.Group>
+        </Row>
+      </Col>
+    </Form>
   );
-}
-function ConvertStatusBool(toDoItemStatus: Boolean) {
-  if (toDoItemStatus === true) {
-    return "Completed";
-  }
-  return "Not Completed";
 }

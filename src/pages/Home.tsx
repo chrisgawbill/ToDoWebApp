@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Todo, initialToDoData } from "../data/Todo";
+import { Todo, initialToDoData, isCompleted } from "../data/Todo";
 import ToDoRow from "../components/todo-row";
 import { Col, Container, Row } from "react-bootstrap";
 import ToDoInfoPanel from "../components/todo-info-panel";
@@ -10,7 +10,7 @@ import ToDoInfoPanel from "../components/todo-info-panel";
 export default function Home() {
   const [toDoList, setToDoList] = useState<Todo[]>(initialToDoData);
   const [addPanelState, setAddPanelState] = useState<Boolean>(false)
-  const [currentToDoItem, setCurrentToDoItem] = useState<Todo>(new Todo("",false))
+  const [currentToDoItem, setCurrentToDoItem] = useState<Todo>(new Todo("", isCompleted.NotCompleted))
   return (
     <Container>
       <Row>
