@@ -11,7 +11,7 @@ export default function Home() {
   const [toDoList, setToDoList] = useState<Todo[]>(initialToDoData);
   const [infoPanelState, setInfoPanelState] = useState<Boolean>(false);
   const [currentToDoItem, setCurrentToDoItem] = useState<Todo>(
-    new Todo("", isCompleted.NotCompleted)
+    new Todo(0,"", isCompleted.NotCompleted)
   );
   return (
     <Container>
@@ -24,32 +24,42 @@ export default function Home() {
             setCurrentToDoItem={setCurrentToDoItem}
           />
         </Col>
-        <Col md={4} style={{ display: ConvertAddPanelState(infoPanelState) }}>
-          {AddPanelWithInfo(currentToDoItem, setInfoPanelState)}
+        <Col md={4} style={{ display: ConvertInfoPanelState() }}>
+          {AddPanelWithInfo(currentToDoItem, setInfoPanelState, UpdateToDo)}
         </Col>
       </Row>
     </Container>
   );
-}
-/**
+  /**
  *
  * @param addPanelState
  * @returns display setting for the panel
  */
-function ConvertAddPanelState(addPanelState: Boolean) {
-  console.log(addPanelState);
-  if (addPanelState === true) {
+function ConvertInfoPanelState() {
+  if (infoPanelState === true) {
     return "inline-block";
   }
   return "none";
+}
+/**
+ * 
+ * @param updatedToDo 
+ */
+  function UpdateToDo(updatedToDo:Todo){
+    const updatedToDoList:Todo[] = [...toDoList]
+    const index = updatedToDoList.findIndex((toDo) => toDo.id === updatedToDo.id)
+    updatedToDoList[index].name = updatedToDo.name
+    updatedToDoList[index].completed = updatedToDo.completed
+    setToDoList(updatedToDoList)
+  }
 }
 /**
  *
  * @param toDoItem
  * @returns ToDoInfoPanel Component
  */
-function AddPanelWithInfo(toDoItem: Todo, setInfoPanelState:Function) {
+function AddPanelWithInfo(toDoItem: Todo, setInfoPanelState:Function, updateToDo:Function) {
   if (toDoItem.name !== "") {
-    return <ToDoInfoPanel toDoItem={toDoItem} setInfoPanelState={setInfoPanelState} />;
+    return <ToDoInfoPanel toDoItem={toDoItem} setInfoPanelState={setInfoPanelState} updateToDo={updateToDo} />;
   }
 }

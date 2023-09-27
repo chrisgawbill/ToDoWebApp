@@ -4,9 +4,10 @@ import { useEffect, useState } from "react";
 
 interface ToDoInfoPanelProps {
   toDoItem: Todo,
-  setInfoPanelState:Function
+  setInfoPanelState:Function,
+  updateToDo:Function
 }
-export default function ToDoInfoPanel({ toDoItem, setInfoPanelState }: ToDoInfoPanelProps) {
+export default function ToDoInfoPanel({ toDoItem, setInfoPanelState, updateToDo }: ToDoInfoPanelProps) {
   const [toDoItemName, setToDoItemName] = useState<string>("");
   const [toDoItemStatus, setToDoItemStatus] = useState<isCompleted>(isCompleted.Completed);
   useEffect(() => {
@@ -14,7 +15,7 @@ export default function ToDoInfoPanel({ toDoItem, setInfoPanelState }: ToDoInfoP
     setToDoItemStatus(toDoItem.completed)
   },[toDoItem])
   return (
-    <Form>
+    <Form onSubmit={EditToDoFormSubmit}>
       <Col md={1}>
         <Row>
           <Button onClick={() => {
@@ -59,4 +60,10 @@ export default function ToDoInfoPanel({ toDoItem, setInfoPanelState }: ToDoInfoP
       </Col>
     </Form>
   );
+  function EditToDoFormSubmit(e:React.FormEvent<EventTarget>){
+      e.preventDefault()
+      const toDo:Todo = {id: toDoItem.id, name: toDoItemName, completed: toDoItemStatus }
+      updateToDo(toDo)
+      setInfoPanelState(false)
+  }
 }
