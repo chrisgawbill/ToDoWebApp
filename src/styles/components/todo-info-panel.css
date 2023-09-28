@@ -1,0 +1,23 @@
+#cancel-btn-row{
+    margin-top:3%;
+}
+#cancel-btn-row > button{
+    background-color: transparent;
+    border: none;
+}
+#todo-name-row{
+    margin-top: 3%;
+}
+#todo-name-field{
+    font-size: large;
+    font-weight: bold;
+}
+#todo-status-row{
+    margin-top: 2%;;
+}
+#submit-btn-row{
+    margin-top: 5%;
+}
+#submit-btn-row > button{
+    background-color: lightgreen;
+}

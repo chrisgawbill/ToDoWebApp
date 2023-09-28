@@ -8,3 +8,7 @@
 .toDoRow:hover{
     background-color: gainsboro;
 }
+.todo-delete-btn{
+    background-color: transparent;
+    border: none;
+}

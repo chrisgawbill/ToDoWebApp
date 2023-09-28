@@ -1,6 +1,7 @@
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Button, Col, Form, FormGroup, Image, Row } from "react-bootstrap";
 import { Todo, isCompleted } from "../data/Todo";
 import { useEffect, useState } from "react";
+import "../styles/components/todo-info-panel.css";
 
 interface ToDoInfoPanelProps {
   toDoItem: Todo;
@@ -23,20 +24,21 @@ export default function ToDoInfoPanel({
   return (
     <Form onSubmit={EditToDoFormSubmit}>
       <Col md={1}>
-        <Row>
+        <Row id="cancel-btn-row">
           <Button
             onClick={() => {
               setInfoPanelState(false);
             }}
           >
-            X
+            <Image src="C:\Users\gawbi\Documents\Programming\ToDoWebApp\src\assets\icons\icons8-delete.svg" thumbnail/>
           </Button>
         </Row>
       </Col>
       <Col md={11}>
-        <Row>
+        <Row id="todo-name-row">
           <Form.Control
             type="text"
+            id="todo-name-field"
             value={toDoItemName}
             style={{ border: "none", width: "100%" }}
             onChange={(event) => {
@@ -44,7 +46,7 @@ export default function ToDoInfoPanel({
             }}
           />
         </Row>
-        <Row>
+        <Row id="todo-status-row">
           <Form.Group>
             <Form.Label>Status: </Form.Label>
             <Form.Select
@@ -61,10 +63,12 @@ export default function ToDoInfoPanel({
               <option value={isCompleted.Completed}>Completed</option>
             </Form.Select>
           </Form.Group>
-          <Row>
-            <Button variant="primary" type="submit">
-              Submit
-            </Button>
+          <Row id="submit-btn-row">
+            <FormGroup>
+              <Button variant="primary" type="submit">
+                Submit
+              </Button>
+            </FormGroup>
           </Row>
         </Row>
       </Col>
