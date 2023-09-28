@@ -87,7 +87,6 @@ function IterateToDoList(
   return toDoList.map((toDoItem, i) => (
     <ToDoRow
       toDoItem={toDoItem}
-      rowState={panelState}
       rowOnClick={changeAddPanelState}
       currentToDoSelected={setCurrentToDoItem}
       updateToDo={updateToDo}

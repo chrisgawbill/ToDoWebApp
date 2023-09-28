@@ -56,8 +56,10 @@ export default function Home() {
     updatedToDoList[index].completed = updatedToDo.completed;
     setToDoList(updatedToDoList);
   }
-  function DeleteToDo(deleteToDo:Todo){
-    
+  function DeleteToDo(deleteToDoId:number){
+      let updatedToDoList = [...toDoList]
+      updatedToDoList = updatedToDoList.filter((toDo) => toDo.id !== deleteToDoId)
+      setToDoList(updatedToDoList)
   }
 }
 /**

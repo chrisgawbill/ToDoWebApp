@@ -2,9 +2,9 @@ import { Col, Row } from "react-bootstrap";
 import "../styles/components/todo-row.css";
 import { Todo, isCompleted } from "../data/Todo";
 import { useEffect, useState } from "react";
+import { Button } from "bootstrap-react";
 interface ToDoRowProps {
   toDoItem: Todo,
-  rowState: Boolean,
   rowOnClick: Function,
   currentToDoSelected: Function,
   updateToDo:Function,
@@ -12,7 +12,6 @@ interface ToDoRowProps {
 }
 export default function ToDoRow({
   toDoItem,
-  rowState,
   rowOnClick,
   currentToDoSelected,
   updateToDo,
@@ -29,12 +28,8 @@ export default function ToDoRow({
   return (
     <Row
       className="toDoRow"
-      onClick={() => {
-        rowOnClick(true);
-        currentToDoSelected(toDoItem);
-      }}
     >
-      <Col xs={6} lg={2}>
+      <Col xs={4} lg={2}>
         <input
           type="checkbox"
           checked = {isToDoCompleted}
@@ -48,9 +43,20 @@ export default function ToDoRow({
           }}
         ></input>
       </Col>
-      <Col xs={6} lg={10}>
+      <Col xs={4} lg={8} 
+            onClick={() => {
+              rowOnClick(true);
+              currentToDoSelected(toDoItem);
+            }}
+      >
         {toDoItem.name}
+      </Col>
+      <Col xs={4} lg={2}>
+          <Button onClick={DeleteOnClick}>Delete</Button>
       </Col>
     </Row>
   );
+  function DeleteOnClick(){
+      deleteToDo(toDoItem.id)
+  }
 }
