@@ -4,10 +4,12 @@ import { Todo, isCompleted } from "../data/Todo";
 import ToDoRow from "./todo-row";
 
 interface ToDoHolderProps {
-  toDoList: Todo[];
-  infoPanelState: Boolean;
-  setInfoPanelState: Function;
-  setCurrentToDoItem: Function;
+  toDoList: Todo[],
+  infoPanelState: Boolean,
+  setInfoPanelState: Function,
+  setCurrentToDoItem: Function,
+  updateToDo:Function,
+  deleteToDo:Function
 }
 /**
  *
@@ -19,6 +21,8 @@ export default function ToDoHolder({
   infoPanelState,
   setInfoPanelState,
   setCurrentToDoItem,
+  updateToDo,
+  deleteToDo
 }: ToDoHolderProps) {
   const [completedToDos, setCompletedToDos] = useState<Todo[]>([]);
   const [uncompletedToDos, setUncompletedToDos] = useState<Todo[]>([]);
@@ -37,7 +41,9 @@ export default function ToDoHolder({
             uncompletedToDos,
             infoPanelState,
             setInfoPanelState,
-            setCurrentToDoItem
+            setCurrentToDoItem,
+            updateToDo,
+            deleteToDo
           )}
         </Row>
       </Container>
@@ -50,7 +56,9 @@ export default function ToDoHolder({
             completedToDos,
             infoPanelState,
             setInfoPanelState,
-            setCurrentToDoItem
+            setCurrentToDoItem,
+            updateToDo,
+            deleteToDo
           )}
         </Row>
       </Container>
@@ -69,7 +77,9 @@ function IterateToDoList(
   toDoList: Todo[],
   panelState: Boolean,
   changeAddPanelState: Function,
-  setCurrentToDoItem: Function
+  setCurrentToDoItem: Function,
+  updateToDo:Function,
+  deleteToDo:Function
 ) {
   if (toDoList.length === 0) {
     return <p>"There are no ToDo's!"</p>;
@@ -80,6 +90,8 @@ function IterateToDoList(
       rowState={panelState}
       rowOnClick={changeAddPanelState}
       currentToDoSelected={setCurrentToDoItem}
+      updateToDo={updateToDo}
+      deleteToDo={deleteToDo}
       key={i}
     ></ToDoRow>
   ));

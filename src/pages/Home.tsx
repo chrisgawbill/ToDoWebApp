@@ -22,6 +22,8 @@ export default function Home() {
             infoPanelState={infoPanelState}
             setInfoPanelState={setInfoPanelState}
             setCurrentToDoItem={setCurrentToDoItem}
+            updateToDo={UpdateToDo}
+            deleteToDo={DeleteToDo}
           />
         </Col>
         <Col md={4} style={{ display: ConvertInfoPanelState() }}>
@@ -53,6 +55,9 @@ export default function Home() {
     updatedToDoList[index].name = updatedToDo.name;
     updatedToDoList[index].completed = updatedToDo.completed;
     setToDoList(updatedToDoList);
+  }
+  function DeleteToDo(deleteToDo:Todo){
+    
   }
 }
 /**
