@@ -1,4 +1,5 @@
-import { Button, Col, Form, FormGroup, Image, Row } from "react-bootstrap";
+import { Button, Col, Form, FormGroup, Row } from "react-bootstrap";
+import {ToDoEditPanelCancelIcon, } from "../assets/icons";
 import { Todo, isCompleted } from "../data/Todo";
 import { useEffect, useState } from "react";
 import "../styles/components/todo-info-panel.css";
@@ -30,7 +31,7 @@ export default function ToDoInfoPanel({
               setInfoPanelState(false);
             }}
           >
-            <Image src="C:\Users\gawbi\Documents\Programming\ToDoWebApp\src\assets\icons\icons8-delete.svg" thumbnail/>
+            <ToDoEditPanelCancelIcon/>
           </Button>
         </Row>
       </Col>
@@ -65,7 +66,7 @@ export default function ToDoInfoPanel({
           </Form.Group>
           <Row id="submit-btn-row">
             <FormGroup>
-              <Button variant="primary" type="submit">
+              <Button variant="outline-success" type="submit">
                 Submit
               </Button>
             </FormGroup>
