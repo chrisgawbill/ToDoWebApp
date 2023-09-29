@@ -31,7 +31,7 @@ export default function ToDoRow({
   }, [toDoItem.completed]);
   return (
     <Row className="toDoRow">
-      <Col xs={4} lg={2}>
+      <Col xs={2} lg={2}>
         <input
           type="checkbox"
           checked={isToDoCompleted}
@@ -47,13 +47,16 @@ export default function ToDoRow({
       </Col>
       <Col
         xs={4}
-        lg={8}
+        lg={6}
         onClick={() => {
           rowOnClick(true);
           currentToDoSelected(toDoItem);
         }}
       >
         {toDoItem.name}
+      </Col>
+      <Col xs={2} lg={2}>
+        {toDoItem.completeByDate.toLocaleDateString()}
       </Col>
       <Col xs={4} lg={2}>
         <Button variant="outline-danger" size="sm" onClick={DeleteOnClick}>

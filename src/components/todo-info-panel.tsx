@@ -1,4 +1,5 @@
 import { Button, Col, Form, FormGroup, Row } from "react-bootstrap";
+import { parse, format } from 'ts-date/esm/locale/en';
 import {ToDoEditPanelCancelIcon, } from "../assets/icons";
 import { Todo, isCompleted } from "../data/Todo";
 import { useEffect, useState } from "react";
@@ -15,13 +16,15 @@ export default function ToDoInfoPanel({
   updateToDo,
 }: ToDoInfoPanelProps) {
   const [toDoItemName, setToDoItemName] = useState<string>("");
+  const [toDoCompleteByDate, setIsToDoCompeteByDate] = useState<Date>(new Date())
   const [toDoItemStatus, setToDoItemStatus] = useState<isCompleted>(
     isCompleted.Completed
   );
   useEffect(() => {
     setToDoItemName(toDoItem.name);
+    setIsToDoCompeteByDate(toDoItem.completeByDate);
     setToDoItemStatus(toDoItem.completed);
-  }, [toDoItem]);
+  }, [toDoItem.name, toDoItem.completeByDate, toDoItem.completed]);
   return (
     <Form onSubmit={EditToDoFormSubmit}>
       <Col md={1}>
@@ -46,6 +49,14 @@ export default function ToDoInfoPanel({
               setToDoItemName(event.target.value);
             }}
           />
+        </Row>
+        <Row>
+          <Form.Group>
+            <Form.Label>Complete By: </Form.Label>
+            <Form.Control type="date" value={FormateDateForDatePicker(toDoCompleteByDate)} onChange={(event) => {
+              setIsToDoCompeteByDate(new Date(event.target.value))
+            }}/>
+          </Form.Group>
         </Row>
         <Row id="todo-status-row">
           <Form.Group>
@@ -80,9 +91,14 @@ export default function ToDoInfoPanel({
     const toDo: Todo = {
       id: toDoItem.id,
       name: toDoItemName,
+      completeByDate: toDoCompleteByDate,
       completed: toDoItemStatus,
     };
     updateToDo(toDo);
     setInfoPanelState(false);
+  }
+  function FormateDateForDatePicker(completeByDate:Date){
+    const formattedDate = format(completeByDate, "YYYY-MM-D")?.toString()
+    return formattedDate
   }
 }
