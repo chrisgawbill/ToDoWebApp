@@ -1,6 +1,6 @@
 import { Button, Col, Form, FormGroup, Row } from "react-bootstrap";
-import { parse, format } from 'ts-date/esm/locale/en';
-import {ToDoEditPanelCancelIcon, } from "../assets/icons";
+import { parse, format } from "ts-date/esm/locale/en";
+import { ToDoEditPanelCancelIcon } from "../assets/icons";
 import { Todo, isCompleted } from "../data/Todo";
 import { useEffect, useState } from "react";
 import "../styles/components/todo-info-panel.css";
@@ -16,7 +16,9 @@ export default function ToDoInfoPanel({
   updateToDo,
 }: ToDoInfoPanelProps) {
   const [toDoItemName, setToDoItemName] = useState<string>("");
-  const [toDoCompleteByDate, setIsToDoCompeteByDate] = useState<Date>(new Date())
+  const [toDoCompleteByDate, setIsToDoCompeteByDate] = useState<Date>(
+    new Date()
+  );
   const [toDoItemStatus, setToDoItemStatus] = useState<isCompleted>(
     isCompleted.Completed
   );
@@ -34,7 +36,7 @@ export default function ToDoInfoPanel({
               setInfoPanelState(false);
             }}
           >
-            <ToDoEditPanelCancelIcon/>
+            <ToDoEditPanelCancelIcon />
           </Button>
         </Row>
       </Col>
@@ -53,9 +55,13 @@ export default function ToDoInfoPanel({
         <Row>
           <Form.Group>
             <Form.Label>Complete By: </Form.Label>
-            <Form.Control type="date" value={FormateDateForDatePicker(toDoCompleteByDate)} onChange={(event) => {
-              setIsToDoCompeteByDate(new Date(event.target.value))
-            }}/>
+            <Form.Control
+              type="date"
+              value={FormateDateForDatePicker(toDoCompleteByDate)}
+              onChange={(event) => {
+                setIsToDoCompeteByDate(new Date(event.target.value));
+              }}
+            />
           </Form.Group>
         </Row>
         <Row id="todo-status-row">
@@ -86,6 +92,10 @@ export default function ToDoInfoPanel({
       </Col>
     </Form>
   );
+  /**
+   * Sends the updated toDo back up to Home (so it can be updated in list) and closes the panel
+   * @param e
+   */
   function EditToDoFormSubmit(e: React.FormEvent<EventTarget>) {
     e.preventDefault();
     const toDo: Todo = {
@@ -97,8 +107,13 @@ export default function ToDoInfoPanel({
     updateToDo(toDo);
     setInfoPanelState(false);
   }
-  function FormateDateForDatePicker(completeByDate:Date){
-    const formattedDate = format(completeByDate, "YYYY-MM-D")?.toString()
-    return formattedDate
+  /**
+   * Formats the date and returns it
+   * @param completeByDate
+   * @returns
+   */
+  function FormateDateForDatePicker(completeByDate: Date) {
+    const formattedDate = format(completeByDate, "YYYY-MM-D")?.toString();
+    return formattedDate;
   }
 }
