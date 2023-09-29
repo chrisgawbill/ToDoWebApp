@@ -1,0 +1,7 @@
+.bi-x-square:hover{
+    background-color: lightcoral;
+    fill: black;
+}
+.bi bi-trash3-fill:hover{
+    fill: red;
+}

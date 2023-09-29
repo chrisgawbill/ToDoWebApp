@@ -1,60 +1,84 @@
 import { useState } from "react";
-import { Todo, initialToDoData } from "../data/Todo";
-import ToDoRow from "../components/todo-row";
+import { Todo, initialToDoData, isCompleted } from "../data/Todo";
 import { Col, Container, Row } from "react-bootstrap";
-import AddToDoPanel from "../components/add-todo-panel";
+import ToDoInfoPanel from "../components/todo-info-panel";
+import ToDoHolder from "../components/todo-holder";
 /**
- * 
+ *
  * @returns HomePage with Components loaded
  */
 export default function Home() {
   const [toDoList, setToDoList] = useState<Todo[]>(initialToDoData);
-  const [addPanelState, setAddPanelState] = useState<Boolean>(false)
-  const [currentToDoItem, setCurrentToDoItem] = useState<Todo>(new Todo("",false))
+  const [infoPanelState, setInfoPanelState] = useState<Boolean>(false);
+  const [currentToDoItem, setCurrentToDoItem] = useState<Todo>(
+    new Todo(0, "", isCompleted.NotCompleted)
+  );
   return (
     <Container>
       <Row>
-        <Col md={8}>{IterateToDoList(toDoList, addPanelState, setAddPanelState, setCurrentToDoItem)}</Col>
-        <Col md={4} style={{display:ConvertAddPanelState(addPanelState)}}>{AddPanelWithInfo(currentToDoItem)}</Col>
+        <Col md={8}>
+          <ToDoHolder
+            toDoList={toDoList}
+            infoPanelState={infoPanelState}
+            setInfoPanelState={setInfoPanelState}
+            setCurrentToDoItem={setCurrentToDoItem}
+            updateToDo={UpdateToDo}
+            deleteToDo={DeleteToDo}
+          />
+        </Col>
+        <Col md={4} style={{ display: ConvertInfoPanelState() }}>
+          {AddPanelWithInfo(currentToDoItem, setInfoPanelState, UpdateToDo)}
+        </Col>
       </Row>
     </Container>
   );
-}
-/**
- * 
- * @param toDoList 
- * @param panelState 
- * @param changeAddPanelState 
- * @param setCurrentToDoItem 
- * @returns ToDoRow Component
- */
-function IterateToDoList(toDoList: Todo[], panelState:Boolean, changeAddPanelState:Function, setCurrentToDoItem:Function) {
-  if (toDoList.length === 0) {
-    return <p>"There are no ToDo's!"</p>;
+  /**
+   *
+   * @param addPanelState
+   * @returns display setting for the panel
+   */
+  function ConvertInfoPanelState() {
+    if (infoPanelState === true) {
+      return "inline-block";
+    }
+    return "none";
   }
-  return toDoList.map((toDoItem, i) => (
-    <ToDoRow toDoItem={toDoItem} rowState={panelState} rowOnClick={changeAddPanelState} currentToDoSelected={setCurrentToDoItem}  key={i}></ToDoRow>
-  ));
-}
-/**
- * 
- * @param addPanelState 
- * @returns display setting for the panel
- */
-function ConvertAddPanelState(addPanelState:Boolean){
-  console.log(addPanelState)
-  if(addPanelState === true){
-    return "inline-block"
+  /**
+   *
+   * @param updatedToDo
+   */
+  function UpdateToDo(updatedToDo: Todo) {
+    const updatedToDoList: Todo[] = [...toDoList];
+    const index = updatedToDoList.findIndex(
+      (toDo) => toDo.id === updatedToDo.id
+    );
+    updatedToDoList[index].name = updatedToDo.name;
+    updatedToDoList[index].completed = updatedToDo.completed;
+    setToDoList(updatedToDoList);
   }
-  return "none"
+  function DeleteToDo(deleteToDoId:number){
+      let updatedToDoList = [...toDoList]
+      updatedToDoList = updatedToDoList.filter((toDo) => toDo.id !== deleteToDoId)
+      setToDoList(updatedToDoList)
+  }
 }
 /**
- * 
- * @param toDoItem 
- * @returns AddToDoPanel Component
+ *
+ * @param toDoItem
+ * @returns ToDoInfoPanel Component
  */
-function AddPanelWithInfo(toDoItem:Todo){
-  if(toDoItem.name != ""){
-    return <AddToDoPanel toDoItem = {toDoItem}/>
+function AddPanelWithInfo(
+  toDoItem: Todo,
+  setInfoPanelState: Function,
+  updateToDo: Function
+) {
+  if (toDoItem.name !== "") {
+    return (
+      <ToDoInfoPanel
+        toDoItem={toDoItem}
+        setInfoPanelState={setInfoPanelState}
+        updateToDo={updateToDo}
+      />
+    );
   }
 }
