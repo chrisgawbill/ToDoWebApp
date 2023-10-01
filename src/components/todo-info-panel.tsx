@@ -1,5 +1,6 @@
 import { Button, Col, Form, FormGroup, Row } from "react-bootstrap";
-import {ToDoEditPanelCancelIcon, } from "../assets/icons";
+import { parse, format, formatLocalIso } from "ts-date/esm/locale/en";
+import { ToDoEditPanelCancelIcon } from "../assets/icons";
 import { Todo, isCompleted } from "../data/Todo";
 import { useEffect, useState } from "react";
 import "../styles/components/todo-info-panel.css";
@@ -15,13 +16,17 @@ export default function ToDoInfoPanel({
   updateToDo,
 }: ToDoInfoPanelProps) {
   const [toDoItemName, setToDoItemName] = useState<string>("");
+  const [toDoCompleteByDate, setIsToDoCompleteByDate] = useState<Date>(
+    new Date()
+  );
   const [toDoItemStatus, setToDoItemStatus] = useState<isCompleted>(
     isCompleted.Completed
   );
   useEffect(() => {
     setToDoItemName(toDoItem.name);
+    setIsToDoCompleteByDate(toDoItem.completeByDate);
     setToDoItemStatus(toDoItem.completed);
-  }, [toDoItem]);
+  }, [toDoItem.name, toDoItem.completeByDate, toDoItem.completed]);
   return (
     <Form onSubmit={EditToDoFormSubmit}>
       <Col md={1}>
@@ -31,7 +36,7 @@ export default function ToDoInfoPanel({
               setInfoPanelState(false);
             }}
           >
-            <ToDoEditPanelCancelIcon/>
+            <ToDoEditPanelCancelIcon />
           </Button>
         </Row>
       </Col>
@@ -46,6 +51,16 @@ export default function ToDoInfoPanel({
               setToDoItemName(event.target.value);
             }}
           />
+        </Row>
+        <Row>
+          <Form.Group>
+            <Form.Label>Complete By: </Form.Label>
+            <Form.Control
+              type="date"
+              value={FormateDateForDatePicker(toDoCompleteByDate)}
+              onChange={SaveNewDate}
+            />
+          </Form.Group>
         </Row>
         <Row id="todo-status-row">
           <Form.Group>
@@ -67,7 +82,7 @@ export default function ToDoInfoPanel({
           <Row id="submit-btn-row">
             <FormGroup>
               <Button variant="outline-success" type="submit">
-                Submit
+                Save
               </Button>
             </FormGroup>
           </Row>
@@ -75,14 +90,46 @@ export default function ToDoInfoPanel({
       </Col>
     </Form>
   );
+  /**
+   * Sends the updated toDo back up to Home (so it can be updated in list) and closes the panel
+   * @param e
+   */
   function EditToDoFormSubmit(e: React.FormEvent<EventTarget>) {
     e.preventDefault();
     const toDo: Todo = {
       id: toDoItem.id,
       name: toDoItemName,
+      completeByDate: toDoCompleteByDate,
       completed: toDoItemStatus,
     };
     updateToDo(toDo);
     setInfoPanelState(false);
+  }
+  /**
+   * Formats the date and returns it
+   * @param completeByDate
+   * @returns
+   */
+  function FormateDateForDatePicker(completeByDate: Date) {
+    const formattedDate = format(completeByDate, "YYYY-MM-DD")?.toString();
+    // var localBrowserTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    // console.log(formattedDate);
+    return formattedDate;
+  }
+  /**
+   * Saves new date in correct format 
+   * @param event
+   */
+  function SaveNewDate(event: React.ChangeEvent<HTMLInputElement>) {
+    const st: string = event?.target.value.toString();
+    const splitDateString: string[] = st.split("-");
+    const year: number = parseInt(splitDateString[0]);
+    //We subtract a month because in Date January is 0 month
+    const month: number = parseInt(splitDateString[1]) - 1;
+
+    const day: number = parseInt(splitDateString[2]);
+    console.log(month);
+    const correctedDate = new Date(year, month, day);
+    setIsToDoCompleteByDate(correctedDate);
   }
 }

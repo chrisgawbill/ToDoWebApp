@@ -11,7 +11,7 @@ export default function Home() {
   const [toDoList, setToDoList] = useState<Todo[]>(initialToDoData);
   const [infoPanelState, setInfoPanelState] = useState<Boolean>(false);
   const [currentToDoItem, setCurrentToDoItem] = useState<Todo>(
-    new Todo(0, "", isCompleted.NotCompleted)
+    new Todo(0, "", new Date(),  isCompleted.NotCompleted)
   );
   return (
     <Container>
@@ -53,6 +53,7 @@ export default function Home() {
       (toDo) => toDo.id === updatedToDo.id
     );
     updatedToDoList[index].name = updatedToDo.name;
+    updatedToDoList[index].completeByDate = updatedToDo.completeByDate;
     updatedToDoList[index].completed = updatedToDo.completed;
     setToDoList(updatedToDoList);
   }
