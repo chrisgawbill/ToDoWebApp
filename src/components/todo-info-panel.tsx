@@ -58,18 +58,7 @@ export default function ToDoInfoPanel({
             <Form.Control
               type="date"
               value={FormateDateForDatePicker(toDoCompleteByDate)}
-              onChange={(event) => {
-                const st:string = event.target.value.toString()
-                const splitDateString:string[] = st.split('-')
-                const year:number = parseInt(splitDateString[0])
-                //We subtract a month because in Date January is 0 month
-                const month:number = parseInt(splitDateString[1])-1
-
-                const day:number = parseInt(splitDateString[2])
-                console.log(month)
-                const correctedDate = new Date(year, month, day)
-                setIsToDoCompleteByDate(correctedDate)
-              }}
+              onChange={SaveNewDate}
             />
           </Form.Group>
         </Row>
@@ -126,5 +115,21 @@ export default function ToDoInfoPanel({
     // var localBrowserTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     // console.log(formattedDate);
     return formattedDate;
+  }
+  /**
+   * Saves new date in correct format 
+   * @param event
+   */
+  function SaveNewDate(event: React.ChangeEvent<HTMLInputElement>) {
+    const st: string = event?.target.value.toString();
+    const splitDateString: string[] = st.split("-");
+    const year: number = parseInt(splitDateString[0]);
+    //We subtract a month because in Date January is 0 month
+    const month: number = parseInt(splitDateString[1]) - 1;
+
+    const day: number = parseInt(splitDateString[2]);
+    console.log(month);
+    const correctedDate = new Date(year, month, day);
+    setIsToDoCompleteByDate(correctedDate);
   }
 }
