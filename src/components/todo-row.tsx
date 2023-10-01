@@ -2,8 +2,6 @@ import { Col, Row } from "react-bootstrap";
 import { Todo, isCompleted } from "../data/Todo";
 import { useEffect, useState } from "react";
 import Button from 'react-bootstrap/Button';
-
-
 import "../styles/components/todo-row.css";
 import { ToDoRowDeleteIcon } from "../assets/icons";
 
@@ -65,7 +63,11 @@ export default function ToDoRow({
       </Col>
     </Row>
   );
+  /**
+   * Handles the delete icon onClick event. Deletes row and closes panel
+   */
   function DeleteOnClick() {
     deleteToDo(toDoItem.id);
+    rowOnClick(false)
   }
 }

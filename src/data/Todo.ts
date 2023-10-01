@@ -10,6 +10,6 @@ export enum isCompleted{
     Completed = 1
 }
 export var initialToDoData:Todo[] = [
-    new Todo(0,"Start on ToDo Appplication", new Date(), isCompleted.NotCompleted),
+    new Todo(0,"Start on ToDo Appplication", new Date(2020,4,23), isCompleted.NotCompleted),
     new Todo(1,"Eat Breakfast", new Date(), isCompleted.Completed)
 ]

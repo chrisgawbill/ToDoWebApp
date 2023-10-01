@@ -1,5 +1,5 @@
 import { Button, Col, Form, FormGroup, Row } from "react-bootstrap";
-import { parse, format } from "ts-date/esm/locale/en";
+import { parse, format, formatLocalIso } from "ts-date/esm/locale/en";
 import { ToDoEditPanelCancelIcon } from "../assets/icons";
 import { Todo, isCompleted } from "../data/Todo";
 import { useEffect, useState } from "react";
@@ -16,7 +16,7 @@ export default function ToDoInfoPanel({
   updateToDo,
 }: ToDoInfoPanelProps) {
   const [toDoItemName, setToDoItemName] = useState<string>("");
-  const [toDoCompleteByDate, setIsToDoCompeteByDate] = useState<Date>(
+  const [toDoCompleteByDate, setIsToDoCompleteByDate] = useState<Date>(
     new Date()
   );
   const [toDoItemStatus, setToDoItemStatus] = useState<isCompleted>(
@@ -24,7 +24,7 @@ export default function ToDoInfoPanel({
   );
   useEffect(() => {
     setToDoItemName(toDoItem.name);
-    setIsToDoCompeteByDate(toDoItem.completeByDate);
+    setIsToDoCompleteByDate(toDoItem.completeByDate);
     setToDoItemStatus(toDoItem.completed);
   }, [toDoItem.name, toDoItem.completeByDate, toDoItem.completed]);
   return (
@@ -59,7 +59,16 @@ export default function ToDoInfoPanel({
               type="date"
               value={FormateDateForDatePicker(toDoCompleteByDate)}
               onChange={(event) => {
-                setIsToDoCompeteByDate(new Date(event.target.value));
+                const st:string = event.target.value.toString()
+                const splitDateString:string[] = st.split('-')
+                const year:number = parseInt(splitDateString[0])
+                //We subtract a month because in Date January is 0 month
+                const month:number = parseInt(splitDateString[1])-1
+
+                const day:number = parseInt(splitDateString[2])
+                console.log(month)
+                const correctedDate = new Date(year, month, day)
+                setIsToDoCompleteByDate(correctedDate)
               }}
             />
           </Form.Group>
@@ -84,7 +93,7 @@ export default function ToDoInfoPanel({
           <Row id="submit-btn-row">
             <FormGroup>
               <Button variant="outline-success" type="submit">
-                Submit
+                Save
               </Button>
             </FormGroup>
           </Row>
@@ -113,7 +122,9 @@ export default function ToDoInfoPanel({
    * @returns
    */
   function FormateDateForDatePicker(completeByDate: Date) {
-    const formattedDate = format(completeByDate, "YYYY-MM-D")?.toString();
+    const formattedDate = format(completeByDate, "YYYY-MM-DD")?.toString();
+    // var localBrowserTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    // console.log(formattedDate);
     return formattedDate;
   }
 }
