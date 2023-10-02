@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { Todo, initialToDoData, isCompleted } from "../data/Todo";
-import { Col, Collapse, Container, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import ToDoInfoPanel from "../components/todo-info-panel";
 import ToDoHolder from "../components/todo-holder";
-import { info } from "console";
 /**
  *
  * @returns HomePage with Components loaded
