@@ -1,5 +1,5 @@
-import { Button, Col, Form, FormGroup, Row } from "react-bootstrap";
-import { parse, format, formatLocalIso } from "ts-date/esm/locale/en";
+import { Button, Col, Collapse, Form, FormGroup, Row } from "react-bootstrap";
+import { format } from "ts-date/esm/locale/en";
 import { ToDoEditPanelCancelIcon } from "../assets/icons";
 import { Todo, isCompleted } from "../data/Todo";
 import { useEffect, useState } from "react";
@@ -7,11 +7,13 @@ import "../styles/components/todo-info-panel.css";
 
 interface ToDoInfoPanelProps {
   toDoItem: Todo;
+  infoPanelState:boolean,
   setInfoPanelState: Function;
   updateToDo: Function;
 }
 export default function ToDoInfoPanel({
   toDoItem,
+  infoPanelState,
   setInfoPanelState,
   updateToDo,
 }: ToDoInfoPanelProps) {
@@ -28,7 +30,9 @@ export default function ToDoInfoPanel({
     setToDoItemStatus(toDoItem.completed);
   }, [toDoItem.name, toDoItem.completeByDate, toDoItem.completed]);
   return (
-    <Form onSubmit={EditToDoFormSubmit}>
+    <div>
+    <Collapse in={infoPanelState} dimension={"width"}>
+    <Form onSubmit={EditToDoFormSubmit} id="edit-todo-panel">
       <Col md={1}>
         <Row id="cancel-btn-row">
           <Button
@@ -89,6 +93,9 @@ export default function ToDoInfoPanel({
         </Row>
       </Col>
     </Form>
+    </Collapse>
+          
+    </div>
   );
   /**
    * Sends the updated toDo back up to Home (so it can be updated in list) and closes the panel

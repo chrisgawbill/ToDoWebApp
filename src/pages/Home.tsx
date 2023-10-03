@@ -9,9 +9,9 @@ import ToDoHolder from "../components/todo-holder";
  */
 export default function Home() {
   const [toDoList, setToDoList] = useState<Todo[]>(initialToDoData);
-  const [infoPanelState, setInfoPanelState] = useState<Boolean>(false);
+  const [infoPanelState, setInfoPanelState] = useState<boolean>(false);
   const [currentToDoItem, setCurrentToDoItem] = useState<Todo>(
-    new Todo(0, "", new Date(),  isCompleted.NotCompleted)
+    new Todo(0, "", new Date(), isCompleted.NotCompleted)
   );
   return (
     <Container>
@@ -19,30 +19,16 @@ export default function Home() {
         <Col md={8}>
           <ToDoHolder
             toDoList={toDoList}
-            infoPanelState={infoPanelState}
             setInfoPanelState={setInfoPanelState}
             setCurrentToDoItem={setCurrentToDoItem}
             updateToDo={UpdateToDo}
             deleteToDo={DeleteToDo}
           />
         </Col>
-        <Col md={4} style={{ display: ConvertInfoPanelState() }}>
-          {AddPanelWithInfo(currentToDoItem, setInfoPanelState, UpdateToDo)}
-        </Col>
+        <Col md={4}>{AddPanelWithInfo()}</Col>
       </Row>
     </Container>
   );
-  /**
-   *
-   * @param addPanelState
-   * @returns display setting for the panel
-   */
-  function ConvertInfoPanelState() {
-    if (infoPanelState === true) {
-      return "inline-block";
-    }
-    return "none";
-  }
   /**
    *
    * @param updatedToDo
@@ -57,29 +43,31 @@ export default function Home() {
     updatedToDoList[index].completed = updatedToDo.completed;
     setToDoList(updatedToDoList);
   }
-  function DeleteToDo(deleteToDoId:number){
-      let updatedToDoList = [...toDoList]
-      updatedToDoList = updatedToDoList.filter((toDo) => toDo.id !== deleteToDoId)
-      setToDoList(updatedToDoList)
-  }
-}
-/**
- *
- * @param toDoItem
- * @returns ToDoInfoPanel Component
- */
-function AddPanelWithInfo(
-  toDoItem: Todo,
-  setInfoPanelState: Function,
-  updateToDo: Function
-) {
-  if (toDoItem.name !== "") {
-    return (
-      <ToDoInfoPanel
-        toDoItem={toDoItem}
-        setInfoPanelState={setInfoPanelState}
-        updateToDo={updateToDo}
-      />
+  function DeleteToDo(deleteToDoId: number) {
+    let updatedToDoList = [...toDoList];
+    updatedToDoList = updatedToDoList.filter(
+      (toDo) => toDo.id !== deleteToDoId
     );
+    setToDoList(updatedToDoList);
+  }
+  /**
+   *
+   * @param toDoItem
+   * @returns ToDoInfoPanel Component
+   */
+  function AddPanelWithInfo() {
+    if (currentToDoItem.name !== "") {
+      console.log(infoPanelState);
+      return (
+        <ToDoInfoPanel
+          toDoItem={currentToDoItem}
+          infoPanelState={infoPanelState}
+          setInfoPanelState={setInfoPanelState}
+          updateToDo={UpdateToDo}
+        />
+      );
+    } else {
+      return <p></p>;
+    }
   }
 }

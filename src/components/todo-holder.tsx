@@ -5,7 +5,6 @@ import ToDoRow from "./todo-row";
 
 interface ToDoHolderProps {
   toDoList: Todo[],
-  infoPanelState: Boolean,
   setInfoPanelState: Function,
   setCurrentToDoItem: Function,
   updateToDo:Function,
@@ -18,7 +17,6 @@ interface ToDoHolderProps {
  */
 export default function ToDoHolder({
   toDoList,
-  infoPanelState,
   setInfoPanelState,
   setCurrentToDoItem,
   updateToDo,
@@ -39,7 +37,6 @@ export default function ToDoHolder({
         <Row>
           {IterateToDoList(
             uncompletedToDos,
-            infoPanelState,
             setInfoPanelState,
             setCurrentToDoItem,
             updateToDo,
@@ -54,7 +51,6 @@ export default function ToDoHolder({
         <Row>
           {IterateToDoList(
             completedToDos,
-            infoPanelState,
             setInfoPanelState,
             setCurrentToDoItem,
             updateToDo,
@@ -75,7 +71,6 @@ export default function ToDoHolder({
  */
 function IterateToDoList(
   toDoList: Todo[],
-  panelState: Boolean,
   changeAddPanelState: Function,
   setCurrentToDoItem: Function,
   updateToDo:Function,
