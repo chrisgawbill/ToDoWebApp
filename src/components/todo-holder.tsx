@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import { Container, Row } from "react-bootstrap";
 import { Todo, isCompleted } from "../data/Todo";
 import ToDoRow from "./todo-row";
+import ToDoAddRow from "./todo-add-row";
 
 interface ToDoHolderProps {
-  toDoList: Todo[],
-  setInfoPanelState: Function,
-  setCurrentToDoItem: Function,
-  updateToDo:Function,
-  deleteToDo:Function
+  toDoList: Todo[];
+  setInfoPanelState: Function;
+  setCurrentToDoItem: Function;
+  updateToDo: Function;
+  deleteToDo: Function;
 }
 /**
  *
@@ -20,7 +21,7 @@ export default function ToDoHolder({
   setInfoPanelState,
   setCurrentToDoItem,
   updateToDo,
-  deleteToDo
+  deleteToDo,
 }: ToDoHolderProps) {
   const [completedToDos, setCompletedToDos] = useState<Todo[]>([]);
   const [uncompletedToDos, setUncompletedToDos] = useState<Todo[]>([]);
@@ -29,8 +30,8 @@ export default function ToDoHolder({
     setUncompletedToDos(FilterToDoList(toDoList, isCompleted.NotCompleted));
   }, [toDoList]);
   return (
-    <Container>
-      <Container id="notCompletedToDos">
+    <div>
+      <div id="notCompletedToDos">
         <Row>
           <h2>Tasks To Do</h2>
         </Row>
@@ -43,8 +44,14 @@ export default function ToDoHolder({
             deleteToDo
           )}
         </Row>
-      </Container>
-      <Container id="completedToDos">
+        <Row>
+          <ToDoAddRow
+            currentToDoSelected={setCurrentToDoItem}
+            rowOnClick={setInfoPanelState}
+          />
+        </Row>
+      </div>
+      <div id="completedToDos">
         <Row>
           <h2>Completed Tasks</h2>
         </Row>
@@ -57,8 +64,8 @@ export default function ToDoHolder({
             deleteToDo
           )}
         </Row>
-      </Container>
-    </Container>
+      </div>
+    </div>
   );
 }
 /**
@@ -73,8 +80,8 @@ function IterateToDoList(
   toDoList: Todo[],
   changeAddPanelState: Function,
   setCurrentToDoItem: Function,
-  updateToDo:Function,
-  deleteToDo:Function
+  updateToDo: Function,
+  deleteToDo: Function
 ) {
   if (toDoList.length === 0) {
     return <p>"There are no ToDo's!"</p>;

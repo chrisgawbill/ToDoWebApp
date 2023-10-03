@@ -14,9 +14,9 @@ export default function Home() {
     new Todo(0, "", new Date(), isCompleted.NotCompleted)
   );
   return (
-    <Container>
+    <div>
       <Row>
-        <Col md={8}>
+        <Col md={9}>
           <ToDoHolder
             toDoList={toDoList}
             setInfoPanelState={setInfoPanelState}
@@ -25,10 +25,31 @@ export default function Home() {
             deleteToDo={DeleteToDo}
           />
         </Col>
-        <Col md={4}>{AddPanelWithInfo()}</Col>
+        <Col md={3}>{AddPanelWithInfo()}</Col>
       </Row>
-    </Container>
+    </div>
   );
+  /**
+   *
+   * @param toDoItem
+   * @returns ToDoInfoPanel Component
+   */
+  function AddPanelWithInfo() {
+    if (currentToDoItem.name !== "") {
+      console.log(infoPanelState);
+      return (
+        <ToDoInfoPanel
+          toDoItem={currentToDoItem}
+          infoPanelState={infoPanelState}
+          setInfoPanelState={setInfoPanelState}
+          updateToDo={UpdateToDo}
+          addToDo={AddToDo}
+        />
+      );
+    } else {
+      return <p></p>;
+    }
+  }
   /**
    *
    * @param updatedToDo
@@ -50,24 +71,13 @@ export default function Home() {
     );
     setToDoList(updatedToDoList);
   }
-  /**
-   *
-   * @param toDoItem
-   * @returns ToDoInfoPanel Component
-   */
-  function AddPanelWithInfo() {
-    if (currentToDoItem.name !== "") {
-      console.log(infoPanelState);
-      return (
-        <ToDoInfoPanel
-          toDoItem={currentToDoItem}
-          infoPanelState={infoPanelState}
-          setInfoPanelState={setInfoPanelState}
-          updateToDo={UpdateToDo}
-        />
-      );
-    } else {
-      return <p></p>;
-    }
+  function AddToDo(toDoItem: Todo) {
+    const updatedToDoList: Todo[] = [...toDoList];
+    const index = updatedToDoList.length - 1;
+    toDoItem.id = index;
+    updatedToDoList.push(toDoItem);
+
+    console.log(toDoItem)
+    setToDoList(updatedToDoList);
   }
 }
