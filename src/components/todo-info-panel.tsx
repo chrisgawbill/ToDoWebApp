@@ -7,15 +7,17 @@ import "../styles/components/todo-info-panel.css";
 
 interface ToDoInfoPanelProps {
   toDoItem: Todo;
-  infoPanelState:boolean,
+  infoPanelState: boolean;
   setInfoPanelState: Function;
   updateToDo: Function;
+  addToDo: Function;
 }
 export default function ToDoInfoPanel({
   toDoItem,
   infoPanelState,
   setInfoPanelState,
   updateToDo,
+  addToDo,
 }: ToDoInfoPanelProps) {
   const [toDoItemName, setToDoItemName] = useState<string>("");
   const [toDoCompleteByDate, setIsToDoCompleteByDate] = useState<Date>(
@@ -31,70 +33,73 @@ export default function ToDoInfoPanel({
   }, [toDoItem.name, toDoItem.completeByDate, toDoItem.completed]);
   return (
     <div>
-    <Collapse in={infoPanelState} dimension={"width"}>
-    <Form onSubmit={EditToDoFormSubmit} id="edit-todo-panel">
-      <Col md={1}>
-        <Row id="cancel-btn-row">
-          <Button
-            onClick={() => {
-              setInfoPanelState(false);
-            }}
-          >
-            <ToDoEditPanelCancelIcon />
-          </Button>
-        </Row>
-      </Col>
-      <Col md={11}>
-        <Row id="todo-name-row">
-          <Form.Control
-            type="text"
-            id="todo-name-field"
-            value={toDoItemName}
-            style={{ border: "none", width: "100%" }}
-            onChange={(event) => {
-              setToDoItemName(event.target.value);
-            }}
-          />
-        </Row>
-        <Row>
-          <Form.Group>
-            <Form.Label>Complete By: </Form.Label>
-            <Form.Control
-              type="date"
-              value={FormateDateForDatePicker(toDoCompleteByDate)}
-              onChange={SaveNewDate}
-            />
-          </Form.Group>
-        </Row>
-        <Row id="todo-status-row">
-          <Form.Group>
-            <Form.Label>Status: </Form.Label>
-            <Form.Select
-              value={toDoItemStatus}
-              onChange={(event) => {
-                if (event.target.value === "0") {
-                  setToDoItemStatus(isCompleted.NotCompleted);
-                } else {
-                  setToDoItemStatus(isCompleted.Completed);
-                }
-              }}
-            >
-              <option value={isCompleted.NotCompleted}>Not Completed</option>
-              <option value={isCompleted.Completed}>Completed</option>
-            </Form.Select>
-          </Form.Group>
-          <Row id="submit-btn-row">
-            <FormGroup>
-              <Button variant="outline-success" type="submit">
-                Save
-              </Button>
-            </FormGroup>
-          </Row>
-        </Row>
-      </Col>
-    </Form>
-    </Collapse>
-          
+      <Collapse in={infoPanelState} dimension={"width"}>
+        <div>
+          <Form onSubmit={EditToDoFormSubmit} id="edit-todo-panel">
+            <Col md={1}>
+              <Row id="cancel-btn-row">
+                <Button
+                  onClick={() => {
+                    setInfoPanelState(false);
+                  }}
+                >
+                  <ToDoEditPanelCancelIcon />
+                </Button>
+              </Row>
+            </Col>
+            <Col md={11}>
+              <Row id="todo-name-row">
+                <Form.Control
+                  type="text"
+                  id="todo-name-field"
+                  value={toDoItemName}
+                  style={{ border: "none", width: "100%" }}
+                  onChange={(event) => {
+                    setToDoItemName(event.target.value);
+                  }}
+                />
+              </Row>
+              <Row>
+                <Form.Group>
+                  <Form.Label>Complete By: </Form.Label>
+                  <Form.Control
+                    type="date"
+                    value={FormateDateForDatePicker(toDoCompleteByDate)}
+                    onChange={SaveNewDate}
+                  />
+                </Form.Group>
+              </Row>
+              <Row id="todo-status-row">
+                <Form.Group>
+                  <Form.Label>Status: </Form.Label>
+                  <Form.Select
+                    value={toDoItemStatus}
+                    onChange={(event) => {
+                      if (event.target.value === "0") {
+                        setToDoItemStatus(isCompleted.NotCompleted);
+                      } else {
+                        setToDoItemStatus(isCompleted.Completed);
+                      }
+                    }}
+                  >
+                    <option value={isCompleted.NotCompleted}>
+                      Not Completed
+                    </option>
+                    <option value={isCompleted.Completed}>Completed</option>
+                  </Form.Select>
+                </Form.Group>
+                <Row id="submit-btn-row">
+                  <FormGroup>
+                    <Button variant="outline-success" type="submit">
+                      Save
+                    </Button>
+                  </FormGroup>
+                </Row>
+              </Row>
+            </Col>
+          </Form>
+        </div>
+      </Collapse>
     </div>
   );
   /**
@@ -103,13 +108,17 @@ export default function ToDoInfoPanel({
    */
   function EditToDoFormSubmit(e: React.FormEvent<EventTarget>) {
     e.preventDefault();
-    const toDo: Todo = {
+    const updatedToDo: Todo = {
       id: toDoItem.id,
       name: toDoItemName,
       completeByDate: toDoCompleteByDate,
       completed: toDoItemStatus,
     };
-    updateToDo(toDo);
+    if (updatedToDo.id === -1) {
+      addToDo(updatedToDo);
+    } else {
+      updateToDo(updatedToDo);
+    }
     setInfoPanelState(false);
   }
   /**
@@ -124,7 +133,7 @@ export default function ToDoInfoPanel({
     return formattedDate;
   }
   /**
-   * Saves new date in correct format 
+   * Saves new date in correct format
    * @param event
    */
   function SaveNewDate(event: React.ChangeEvent<HTMLInputElement>) {
