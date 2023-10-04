@@ -1,9 +1,11 @@
 import { Button, Col, Collapse, Form, FormGroup, Row } from "react-bootstrap";
 import { format } from "ts-date/esm/locale/en";
-import { ToDoEditPanelCancelIcon } from "../assets/icons";
+import { ToDoAddRowIcon, ToDoEditPanelCancelIcon } from "../assets/icons";
 import { Todo, isCompleted } from "../data/Todo";
 import { useEffect, useState } from "react";
 import "../styles/components/todo-info-panel.css";
+import ToDoAddTagModal from "./todo-add-tag-modal";
+import { ToDoTag } from "../data/Tag";
 
 interface ToDoInfoPanelProps {
   toDoItem: Todo;
@@ -26,6 +28,8 @@ export default function ToDoInfoPanel({
   const [toDoItemStatus, setToDoItemStatus] = useState<isCompleted>(
     isCompleted.Completed
   );
+  const [showAddTagModal, setShowAddTagModal] = useState<boolean>(false)
+  const [toDoTags, setToDoTags] = useState<ToDoTag[]>([])
   useEffect(() => {
     setToDoItemName(toDoItem.name);
     setIsToDoCompleteByDate(toDoItem.completeByDate);
@@ -88,18 +92,36 @@ export default function ToDoInfoPanel({
                     <option value={isCompleted.Completed}>Completed</option>
                   </Form.Select>
                 </Form.Group>
-                <Row id="submit-btn-row">
-                  <FormGroup>
-                    <Button variant="outline-success" type="submit">
-                      Save
-                    </Button>
-                  </FormGroup>
-                </Row>
+              </Row>
+              <Row>
+                <FormGroup>
+                  <Form.Label>Tag</Form.Label>
+                  <Row>
+                    <Col md={9}>
+                      <Form.Select>
+                        <option>Testing</option>
+                      </Form.Select>
+                    </Col>
+                    <Col md={2}>
+                      <Button onClick={AddTagClickHandler}>
+                        <ToDoAddRowIcon/>
+                      </Button>
+                    </Col>
+                  </Row>
+                </FormGroup>
+              </Row>
+              <Row id="submit-btn-row">
+                <FormGroup>
+                  <Button variant="outline-success" type="submit">
+                    Save
+                  </Button>
+                </FormGroup>
               </Row>
             </Col>
           </Form>
         </div>
       </Collapse>
+      <ToDoAddTagModal showModal={showAddTagModal} addTagOnSubmit={AddTag} setShowAddTagModal={setShowAddTagModal}/>
     </div>
   );
   /**
@@ -147,5 +169,11 @@ export default function ToDoInfoPanel({
     console.log(month);
     const correctedDate = new Date(year, month, day);
     setIsToDoCompleteByDate(correctedDate);
+  }
+  function AddTagClickHandler(){
+    setShowAddTagModal(true)
+  }
+  function AddTag(tag:ToDoTag){
+    
   }
 }
