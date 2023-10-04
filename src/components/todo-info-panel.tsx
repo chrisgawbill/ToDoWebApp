@@ -99,7 +99,7 @@ export default function ToDoInfoPanel({
                   <Row>
                     <Col md={9}>
                       <Form.Select>
-                        <option>Testing</option>
+                        {IterateTagList()}
                       </Form.Select>
                     </Col>
                     <Col md={2}>
@@ -174,6 +174,14 @@ export default function ToDoInfoPanel({
     setShowAddTagModal(true)
   }
   function AddTag(tag:ToDoTag){
-    
+    const updatedTagArray:ToDoTag[] = [...toDoTags]
+    tag.id = updatedTagArray.length-1
+    updatedTagArray.push(tag)
+    setToDoTags(updatedTagArray)
+  }
+  function IterateTagList(){
+    return toDoTags.map((tag, i) => (
+      <option value={tag.name} key={i}>{tag.name}</option>
+    ))
   }
 }
