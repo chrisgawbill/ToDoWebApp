@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { ToDoTag } from "../data/Tag";
 interface ToDoAddTagModalProps{
@@ -41,6 +41,8 @@ export default function ToDoAddTagModal({showModal, addTagOnSubmit, setShowAddTa
         setTagColor(tagColor)
     }
     function HandleModalClose(){
+        setTagName("")
+        setTagColor("")
         setShowAddTagModal(false)
     }
     function HandleTagOnSubmit(){
