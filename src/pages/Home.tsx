@@ -3,6 +3,7 @@ import { Todo, initialToDoData, isCompleted } from "../data/Todo";
 import { Col, Row } from "react-bootstrap";
 import ToDoInfoPanel from "../components/todo-info-panel";
 import ToDoHolder from "../components/todo-holder";
+import { ToDoTag } from "../data/Tag";
 /**
  *
  * @returns HomePage with Components loaded
@@ -11,7 +12,7 @@ export default function Home() {
   const [toDoList, setToDoList] = useState<Todo[]>(initialToDoData);
   const [infoPanelState, setInfoPanelState] = useState<boolean>(false);
   const [currentToDoItem, setCurrentToDoItem] = useState<Todo>(
-    new Todo(0, "", new Date(), isCompleted.NotCompleted)
+    new Todo(0, "", new ToDoTag(-1,"",""), new Date(), isCompleted.NotCompleted)
   );
   return (
     <div>

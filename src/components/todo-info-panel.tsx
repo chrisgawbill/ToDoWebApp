@@ -25,6 +25,7 @@ export default function ToDoInfoPanel({
   const [toDoCompleteByDate, setIsToDoCompleteByDate] = useState<Date>(
     new Date()
   );
+  const [toDoTag, setToDoTag] = useState<ToDoTag>(new ToDoTag(-1,"",""))
   const [toDoItemStatus, setToDoItemStatus] = useState<isCompleted>(
     isCompleted.Completed
   );
@@ -98,7 +99,12 @@ export default function ToDoInfoPanel({
                   <Form.Label>Tag</Form.Label>
                   <Row>
                     <Col md={9}>
-                      <Form.Select>
+                      <Form.Select value={toDoTag.name} onChange={(event) => {
+                        const tagValue = event.target.value
+                        const tagIndex:number = toDoTags.findIndex((toDoTag) => toDoTag.name === tagValue)
+                        const tag = toDoTags[tagIndex]
+                        setToDoTag(tag)
+                      }}>
                         {IterateTagList()}
                       </Form.Select>
                     </Col>
@@ -133,6 +139,7 @@ export default function ToDoInfoPanel({
     const updatedToDo: Todo = {
       id: toDoItem.id,
       name: toDoItemName,
+      tag: toDoTag,
       completeByDate: toDoCompleteByDate,
       completed: toDoItemStatus,
     };
@@ -175,7 +182,7 @@ export default function ToDoInfoPanel({
   }
   function AddTag(tag:ToDoTag){
     const updatedTagArray:ToDoTag[] = [...toDoTags]
-    tag.id = updatedTagArray.length-1
+    tag.id = updatedTagArray.length
     updatedTagArray.push(tag)
     setToDoTags(updatedTagArray)
   }
