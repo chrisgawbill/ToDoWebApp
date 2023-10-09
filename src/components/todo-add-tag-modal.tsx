@@ -8,7 +8,7 @@ interface ToDoAddTagModalProps{
 }
 export default function ToDoAddTagModal({showModal, addTagOnSubmit, setShowAddTagModal}:ToDoAddTagModalProps){
     const [tagName, setTagName] = useState<string>("")
-    const [tagColor, setTagColor] = useState<string>("")
+    const [tagColor, setTagColor] = useState<string>("#000000")
     return(
         <div>
             <Modal show={showModal} onHide={HandleModalClose}>

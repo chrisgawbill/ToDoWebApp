@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import "../styles/components/todo-row.css";
 import { ToDoRowDeleteIcon } from "../assets/icons";
+import ToDoRowTag from "./todo-row-tag";
+import { ToDoTag } from "../data/Tag";
 
 interface ToDoRowProps {
   toDoItem: Todo;
@@ -43,13 +45,14 @@ export default function ToDoRow({
           }}
         ></input>
       </Col>
-      <Col xs={4} lg={6} onClick={RowOnClickBasicHandler}>
+      <Col xs={4} lg={4} onClick={RowOnClickBasicHandler}>
         {toDoItem.name}
       </Col>
+      <Col xs={1} lg={2}><ToDoRowTag tag={toDoItem.tag}/></Col>
       <Col xs={2} lg={2} onClick={RowOnClickBasicHandler}>
         {toDoItem.completeByDate.toLocaleDateString()}
       </Col>
-      <Col xs={4} lg={2}>
+      <Col xs={1} lg={2}>
         <Button variant="outline-danger" size="sm" onClick={DeleteOnClick}>
           <ToDoRowDeleteIcon />
         </Button>

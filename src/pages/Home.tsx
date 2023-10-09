@@ -62,6 +62,7 @@ export default function Home() {
     );
     updatedToDoList[index].name = updatedToDo.name;
     updatedToDoList[index].completeByDate = updatedToDo.completeByDate;
+    updatedToDoList[index].tag = updatedToDo.tag;
     updatedToDoList[index].completed = updatedToDo.completed;
     setToDoList(updatedToDoList);
   }
@@ -78,7 +79,6 @@ export default function Home() {
     toDoItem.id = index;
     updatedToDoList.push(toDoItem);
 
-    console.log(toDoItem)
     setToDoList(updatedToDoList);
   }
 }

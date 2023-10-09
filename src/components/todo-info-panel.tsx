@@ -173,7 +173,6 @@ export default function ToDoInfoPanel({
     const month: number = parseInt(splitDateString[1]) - 1;
 
     const day: number = parseInt(splitDateString[2]);
-    console.log(month);
     const correctedDate = new Date(year, month, day);
     setIsToDoCompleteByDate(correctedDate);
   }
@@ -185,6 +184,10 @@ export default function ToDoInfoPanel({
     tag.id = updatedTagArray.length
     updatedTagArray.push(tag)
     setToDoTags(updatedTagArray)
+
+    if(updatedTagArray.length === 1){
+      setToDoTag(tag)
+    }
   }
   function IterateTagList(){
     return toDoTags.map((tag, i) => (
