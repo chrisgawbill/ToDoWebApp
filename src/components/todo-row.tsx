@@ -48,7 +48,7 @@ export default function ToDoRow({
       <Col xs={4} lg={4} onClick={RowOnClickBasicHandler}>
         {toDoItem.name}
       </Col>
-      <Col xs={1} lg={2}><ToDoRowTag tag={toDoItem.tag}/></Col>
+      <Col xs={2} lg={1}><ToDoRowTag tag={toDoItem.tag}/></Col>
       <Col xs={2} lg={2} onClick={RowOnClickBasicHandler}>
         {toDoItem.completeByDate.toLocaleDateString()}
       </Col>
