@@ -1,6 +1,7 @@
 import { Button, Col, Collapse, Form, FormGroup, Row } from "react-bootstrap";
 import { format } from "ts-date/esm/locale/en";
 import {
+  EditIcon,
   RevertTagIcon,
   ToDoAddRowIcon,
   ToDoEditPanelCancelIcon,
@@ -141,7 +142,7 @@ export default function ToDoInfoPanel({
                         title="Edit Tags"
                         onClick={EditTagClickHandler}
                       >
-                        <ToDoAddRowIcon />
+                        <EditIcon />
                       </Button>
                     </Col>
                     <Col md={2}>
