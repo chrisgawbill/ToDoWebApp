@@ -1,4 +1,4 @@
-import { Col, Row } from "react-bootstrap";
+import { Badge, Col, Row } from "react-bootstrap";
 import { Todo, isCompleted } from "../data/Todo";
 import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
@@ -48,7 +48,7 @@ export default function ToDoRow({
       <Col xs={4} lg={4} onClick={RowOnClickBasicHandler}>
         {toDoItem.name}
       </Col>
-      <Col xs={2} lg={1}><ToDoRowTag tag={toDoItem.tag}/></Col>
+      <Col xs={2} lg={1}><Badge pill bg="light" style={{color:toDoItem.tag.color}}>{toDoItem.tag.name}</Badge></Col>
       <Col xs={2} lg={2} onClick={RowOnClickBasicHandler}>
         {toDoItem.completeByDate.toLocaleDateString()}
       </Col>
