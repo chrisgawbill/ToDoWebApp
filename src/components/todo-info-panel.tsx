@@ -1,6 +1,7 @@
 import { Button, Col, Collapse, Form, FormGroup, Row } from "react-bootstrap";
 import { format } from "ts-date/esm/locale/en";
 import {
+  RevertTagIcon,
   ToDoAddRowIcon,
   ToDoEditPanelCancelIcon,
   ToDoRowDeleteIcon,
@@ -26,7 +27,7 @@ export default function ToDoInfoPanel({
   addToDo,
 }: ToDoInfoPanelProps) {
   const defaultTag = new ToDoTag(-1, "N/A", "#000000");
-  
+
   const [toDoItemName, setToDoItemName] = useState<string>("");
   const [toDoCompleteByDate, setIsToDoCompleteByDate] = useState<Date>(
     new Date()
@@ -147,9 +148,9 @@ export default function ToDoInfoPanel({
                       <Button
                         variant="outline-danger"
                         title="Remove Tag From ToDo"
-                        onClick={DeleteTagClickHandler}
+                        onClick={RevertTagClickHandler}
                       >
-                        <ToDoRowDeleteIcon />
+                        <RevertTagIcon />
                       </Button>
                     </Col>
                   </Row>
@@ -246,5 +247,7 @@ export default function ToDoInfoPanel({
   // This function would pop up a modal to edit tags
   function EditTagClickHandler() {}
   // This function will delete tag from todo
-  function DeleteTagClickHandler() {}
+  function RevertTagClickHandler() {
+    setToDoTag(defaultTag)
+  }
 }
