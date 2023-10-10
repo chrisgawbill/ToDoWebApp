@@ -46,7 +46,7 @@ export default function ToDoRow({
       <Col xs={4} lg={4} onClick={RowOnClickBasicHandler}>
         {toDoItem.name}
       </Col>
-      <Col xs={2} lg={1}><Badge pill bg="light" style={{color:toDoItem.tag.color}}>{toDoItem.tag.name}</Badge></Col>
+      <Col xs={2} lg={1}>{RowTagDisplayHandler()}</Col>
       <Col xs={2} lg={2} onClick={RowOnClickBasicHandler}>
         {toDoItem.completeByDate.toLocaleDateString()}
       </Col>
@@ -70,5 +70,12 @@ export default function ToDoRow({
   function RowOnClickBasicHandler() {
     rowOnClick(true);
     currentToDoSelected(toDoItem);
+  }
+  function RowTagDisplayHandler(){
+    const tag = toDoItem.tag
+    if(tag.name === "N/A"){
+      return <></>
+    }
+    return <Badge pill bg="light" style={{color:toDoItem.tag.color}}>{toDoItem.tag.name}</Badge>
   }
 }

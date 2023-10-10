@@ -1,6 +1,10 @@
 import { Button, Col, Collapse, Form, FormGroup, Row } from "react-bootstrap";
 import { format } from "ts-date/esm/locale/en";
-import { ToDoAddRowIcon, ToDoEditPanelCancelIcon, ToDoRowDeleteIcon } from "../assets/icons";
+import {
+  ToDoAddRowIcon,
+  ToDoEditPanelCancelIcon,
+  ToDoRowDeleteIcon,
+} from "../assets/icons";
 import { Todo, isCompleted } from "../data/Todo";
 import { useEffect, useState } from "react";
 import "../styles/components/todo-info-panel.css";
@@ -21,11 +25,13 @@ export default function ToDoInfoPanel({
   updateToDo,
   addToDo,
 }: ToDoInfoPanelProps) {
+  const defaultTag = new ToDoTag(-1, "N/A", "#000000");
+  
   const [toDoItemName, setToDoItemName] = useState<string>("");
   const [toDoCompleteByDate, setIsToDoCompleteByDate] = useState<Date>(
     new Date()
   );
-  const [toDoTag, setToDoTag] = useState<ToDoTag>(new ToDoTag(-1, "", ""));
+  const [toDoTag, setToDoTag] = useState<ToDoTag>(defaultTag);
   const [toDoItemStatus, setToDoItemStatus] = useState<isCompleted>(
     isCompleted.Completed
   );
@@ -100,41 +106,62 @@ export default function ToDoInfoPanel({
                   <Form.Label>Tag</Form.Label>
                   <Row>
                     <Col md={5}>
-                    <Form.Select
-                      value={toDoTag.name}
-                      onChange={(event) => {
-                        const tagValue = event.target.value;
-                        const tagIndex: number = toDoTags.findIndex(
-                          (toDoTag) => toDoTag.name === tagValue
-                        );
-                        const tag = toDoTags[tagIndex];
-                        setToDoTag(tag);
-                      }}
-                    >
-                      {IterateTagList()}
-                    </Form.Select>
+                      <Form.Select
+                        value={toDoTag.name}
+                        onChange={(event) => {
+                          const tagValue = event.target.value;
+                          if (tagValue === "N/A") {
+                            setToDoTag(defaultTag);
+                          } else {
+                            const tagIndex: number = toDoTags.findIndex(
+                              (toDoTag) => toDoTag.name === tagValue
+                            );
+                            const tag = toDoTags[tagIndex];
+                            setToDoTag(tag);
+                          }
+                        }}
+                      >
+                        <option value={defaultTag.name}>N/A</option>
+                        {IterateTagList()}
+                      </Form.Select>
                     </Col>
                     <Col md={2}>
-                    <Button variant="outline-success" title="Add Tag" onClick={AddTagClickHandler}>
-                          <ToDoAddRowIcon />
-                        </Button>
+                      <Button
+                        variant="outline-success"
+                        title="Add Tag"
+                        onClick={AddTagClickHandler}
+                      >
+                        <ToDoAddRowIcon />
+                      </Button>
                     </Col>
                     <Col md={2}>
-                    <Button variant="outline-warning" title="Edit Tags" onClick={EditTagClickHandler}>
-                          <ToDoAddRowIcon />
-                        </Button>
+                      <Button
+                        variant="outline-warning"
+                        title="Edit Tags"
+                        onClick={EditTagClickHandler}
+                      >
+                        <ToDoAddRowIcon />
+                      </Button>
                     </Col>
                     <Col md={2}>
-                    <Button variant="outline-danger" title="Delete Tag From ToDo" onClick={DeleteTagClickHandler}>
-                          <ToDoRowDeleteIcon />
-                        </Button>
+                      <Button
+                        variant="outline-danger"
+                        title="Remove Tag From ToDo"
+                        onClick={DeleteTagClickHandler}
+                      >
+                        <ToDoRowDeleteIcon />
+                      </Button>
                     </Col>
                   </Row>
                 </FormGroup>
               </Row>
               <Row id="submit-btn-row">
                 <FormGroup>
-                  <Button variant="outline-success" type="submit" title="Save Changes">
+                  <Button
+                    variant="outline-success"
+                    type="submit"
+                    title="Save Changes"
+                  >
                     Save
                   </Button>
                 </FormGroup>
@@ -217,11 +244,7 @@ export default function ToDoInfoPanel({
     ));
   }
   // This function would pop up a modal to edit tags
-  function EditTagClickHandler(){
-
-  }
+  function EditTagClickHandler() {}
   // This function will delete tag from todo
-  function DeleteTagClickHandler(){
-
-  }
+  function DeleteTagClickHandler() {}
 }
