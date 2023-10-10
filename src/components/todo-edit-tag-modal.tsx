@@ -8,6 +8,7 @@ interface EditTagModalProps {
   showModal: boolean;
   setShowModal: Function;
   setToDoTag: Function;
+  deletedTag:Function;
   tagArray: ToDoTag[];
   setTagArray: Function;
 }
@@ -15,10 +16,12 @@ export default function EditTagModal({
   showModal,
   setShowModal,
   setToDoTag,
+  deletedTag,
   tagArray,
   setTagArray,
 }: EditTagModalProps) {
   const [localTagArray, setLocalTagArray] = useState<ToDoTag[]>([]);
+  const [deletedTagArray, setDeletedTagArray] = useState<ToDoTag[]>([]);
   useEffect(() => {
     setLocalTagArray(tagArray);
   }, [tagArray]);
@@ -43,6 +46,7 @@ export default function EditTagModal({
         index={i}
         tagArray={localTagArray}
         setTagArray={setLocalTagArray}
+        setDeletedTagArray={DeleteTagHandler}
       />
     ));
   }
@@ -52,9 +56,15 @@ export default function EditTagModal({
   }
   function SaveTagsClickHandler() {
     setTagArray([...localTagArray]);
-    if (tagArray.length !== localTagArray.length) {
-      setToDoTag(defaultTag);
+    if(localTagArray.length !== tagArray.length){
+      setToDoTag(defaultTag)
+      deletedTag(deletedTagArray)
     }
     setShowModal(false);
+  }
+  function DeleteTagHandler(tag:ToDoTag){
+    const updatedDeletedTagArray = [...deletedTagArray]
+    updatedDeletedTagArray.push(tag)
+    setDeletedTagArray(updatedDeletedTagArray)
   }
 }

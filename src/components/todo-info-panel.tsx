@@ -18,6 +18,7 @@ interface ToDoInfoPanelProps {
   toDoItem: Todo;
   infoPanelState: boolean;
   setInfoPanelState: Function;
+  deletedTag:Function;
   updateToDo: Function;
   addToDo: Function;
 }
@@ -25,6 +26,7 @@ export default function ToDoInfoPanel({
   toDoItem,
   infoPanelState,
   setInfoPanelState,
+  deletedTag,
   updateToDo,
   addToDo,
 }: ToDoInfoPanelProps) {
@@ -181,6 +183,7 @@ export default function ToDoInfoPanel({
         showModal={showEditTagModal}
         setShowModal={setShowEditTagModal}
         setToDoTag={setToDoTag}
+        deletedTag={deletedTag}
         tagArray={toDoTags}
         setTagArray={setToDoTags}
       />

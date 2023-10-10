@@ -7,12 +7,14 @@ interface EditTagModalRowProps {
   index: number;
   tagArray: ToDoTag[];
   setTagArray: Function;
+  setDeletedTagArray:Function;
 }
 export default function EditTagModalRow({
   tag,
   index,
   tagArray,
   setTagArray,
+  setDeletedTagArray
 }: EditTagModalRowProps) {
   return (
     <Row>
@@ -47,6 +49,7 @@ export default function EditTagModalRow({
             let updatedTagArray: ToDoTag[] = [...tagArray];
             updatedTagArray = updatedTagArray.filter((t) => t.id !== tag.id);
             setTagArray(updatedTagArray);
+            setDeletedTagArray(tag)
           }}
         >
           <ToDoRowDeleteIcon />

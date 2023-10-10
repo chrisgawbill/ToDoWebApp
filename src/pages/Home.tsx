@@ -3,7 +3,7 @@ import { Todo, initialToDoData, isCompleted } from "../data/Todo";
 import { Col, Row } from "react-bootstrap";
 import ToDoInfoPanel from "../components/todo-info-panel";
 import ToDoHolder from "../components/todo-holder";
-import { ToDoTag } from "../data/Tag";
+import { ToDoTag, defaultTag } from "../data/Tag";
 /**
  *
  * @returns HomePage with Components loaded
@@ -43,6 +43,7 @@ export default function Home() {
           toDoItem={currentToDoItem}
           infoPanelState={infoPanelState}
           setInfoPanelState={setInfoPanelState}
+          deletedTag={DeletedTag}
           updateToDo={UpdateToDo}
           addToDo={AddToDo}
         />
@@ -80,5 +81,17 @@ export default function Home() {
     updatedToDoList.push(toDoItem);
 
     setToDoList(updatedToDoList);
+  }
+  function DeletedTag(deletedTagArray:ToDoTag[]){
+    const updatedToDoList = [...toDoList]
+    for(let i = 0; i < deletedTagArray.length; i++){
+      const currentTag = deletedTagArray[i]
+      for(var toDo of updatedToDoList){
+        if(toDo.tag.id === currentTag.id){
+          toDo.tag = defaultTag
+        }
+      }
+      setToDoList(updatedToDoList)
+    }
   }
 }
