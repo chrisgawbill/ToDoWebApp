@@ -11,7 +11,7 @@ import { Todo, isCompleted } from "../data/Todo";
 import { useEffect, useState } from "react";
 import "../styles/components/todo-info-panel.css";
 import ToDoAddTagModal from "./todo-add-tag-modal";
-import { ToDoTag } from "../data/Tag";
+import { ToDoTag, defaultTag } from "../data/Tag";
 import EditTagModal from "./todo-edit-tag-modal";
 
 interface ToDoInfoPanelProps {
@@ -28,8 +28,6 @@ export default function ToDoInfoPanel({
   updateToDo,
   addToDo,
 }: ToDoInfoPanelProps) {
-  const defaultTag = new ToDoTag(-1, "N/A", "#000000");
-
   const [toDoItemName, setToDoItemName] = useState<string>("");
   const [toDoCompleteByDate, setIsToDoCompleteByDate] = useState<Date>(
     new Date()
@@ -39,7 +37,7 @@ export default function ToDoInfoPanel({
     isCompleted.Completed
   );
   const [showAddTagModal, setShowAddTagModal] = useState<boolean>(false);
-  const [showEditTagModal, setShowEditTagModal] = useState<boolean>(false)
+  const [showEditTagModal, setShowEditTagModal] = useState<boolean>(false);
   const [toDoTags, setToDoTags] = useState<ToDoTag[]>([]);
   useEffect(() => {
     setToDoItemName(toDoItem.name);
@@ -179,7 +177,13 @@ export default function ToDoInfoPanel({
         addTagOnSubmit={AddTag}
         setShowAddTagModal={setShowAddTagModal}
       />
-      <EditTagModal showModal={showEditTagModal} setShowModal={setShowEditTagModal} tagArray={toDoTags} setTagArray={setToDoTags}/>
+      <EditTagModal
+        showModal={showEditTagModal}
+        setShowModal={setShowEditTagModal}
+        setToDoTag={setToDoTag}
+        tagArray={toDoTags}
+        setTagArray={setToDoTags}
+      />
     </div>
   );
   /**
@@ -250,10 +254,10 @@ export default function ToDoInfoPanel({
   }
   // This function would pop up a modal to edit tags
   function EditTagClickHandler() {
-    setShowEditTagModal(true)
+    setShowEditTagModal(true);
   }
   // This function will delete tag from todo
   function RevertTagClickHandler() {
-    setToDoTag(defaultTag)
+    setToDoTag(defaultTag);
   }
 }
