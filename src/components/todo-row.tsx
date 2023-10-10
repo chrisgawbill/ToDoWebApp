@@ -4,8 +4,6 @@ import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import "../styles/components/todo-row.css";
 import { ToDoRowDeleteIcon } from "../assets/icons";
-import ToDoRowTag from "./todo-row-tag";
-import { ToDoTag } from "../data/Tag";
 
 interface ToDoRowProps {
   toDoItem: Todo;
