@@ -51,7 +51,7 @@ export default function ToDoRow({
         {toDoItem.completeByDate.toLocaleDateString()}
       </Col>
       <Col xs={1} lg={2}>
-        <Button variant="outline-danger" size="sm" onClick={DeleteOnClick}>
+        <Button variant="outline-danger" size="sm" title="Delete ToDo" onClick={DeleteOnClick}>
           <ToDoRowDeleteIcon />
         </Button>
       </Col>

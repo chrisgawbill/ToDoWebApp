@@ -44,6 +44,7 @@ export default function ToDoInfoPanel({
             <Col md={1}>
               <Row id="cancel-btn-row">
                 <Button
+                  title="Close Panel"
                   onClick={() => {
                     setInfoPanelState(false);
                   }}
@@ -94,7 +95,7 @@ export default function ToDoInfoPanel({
                   </Form.Select>
                 </Form.Group>
               </Row>
-              <Row>
+              <Row id="todo-tag-row">
                 <FormGroup>
                   <Form.Label>Tag</Form.Label>
                   <Row>
@@ -114,17 +115,17 @@ export default function ToDoInfoPanel({
                     </Form.Select>
                     </Col>
                     <Col md={2}>
-                    <Button variant="outline-success" onClick={AddTagClickHandler}>
+                    <Button variant="outline-success" title="Add Tag" onClick={AddTagClickHandler}>
                           <ToDoAddRowIcon />
                         </Button>
                     </Col>
                     <Col md={2}>
-                    <Button variant="outline-warning" onClick={EditTagClickHandler}>
+                    <Button variant="outline-warning" title="Edit Tags" onClick={EditTagClickHandler}>
                           <ToDoAddRowIcon />
                         </Button>
                     </Col>
                     <Col md={2}>
-                    <Button variant="outline-danger" onClick={DeleteTagClickHandler}>
+                    <Button variant="outline-danger" title="Delete Tag From ToDo" onClick={DeleteTagClickHandler}>
                           <ToDoRowDeleteIcon />
                         </Button>
                     </Col>
@@ -133,7 +134,7 @@ export default function ToDoInfoPanel({
               </Row>
               <Row id="submit-btn-row">
                 <FormGroup>
-                  <Button variant="outline-success" type="submit">
+                  <Button variant="outline-success" type="submit" title="Save Changes">
                     Save
                   </Button>
                 </FormGroup>
