@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import "../styles/components/todo-info-panel.css";
 import ToDoAddTagModal from "./todo-add-tag-modal";
 import { ToDoTag } from "../data/Tag";
+import EditTagModal from "./todo-edit-tag-modal";
 
 interface ToDoInfoPanelProps {
   toDoItem: Todo;
@@ -38,6 +39,7 @@ export default function ToDoInfoPanel({
     isCompleted.Completed
   );
   const [showAddTagModal, setShowAddTagModal] = useState<boolean>(false);
+  const [showEditTagModal, setShowEditTagModal] = useState<boolean>(false)
   const [toDoTags, setToDoTags] = useState<ToDoTag[]>([]);
   useEffect(() => {
     setToDoItemName(toDoItem.name);
@@ -177,6 +179,7 @@ export default function ToDoInfoPanel({
         addTagOnSubmit={AddTag}
         setShowAddTagModal={setShowAddTagModal}
       />
+      <EditTagModal showModal={showEditTagModal} setShowModal={setShowEditTagModal} tagArray={toDoTags} setTagArray={setToDoTags}/>
     </div>
   );
   /**
@@ -246,7 +249,9 @@ export default function ToDoInfoPanel({
     ));
   }
   // This function would pop up a modal to edit tags
-  function EditTagClickHandler() {}
+  function EditTagClickHandler() {
+    setShowEditTagModal(true)
+  }
   // This function will delete tag from todo
   function RevertTagClickHandler() {
     setToDoTag(defaultTag)
