@@ -67,6 +67,7 @@ export default function Home() {
     updatedToDoList[index].name = updatedToDo.name;
     updatedToDoList[index].completeByDate = updatedToDo.completeByDate;
     updatedToDoList[index].tag = updatedToDo.tag;
+    updatedToDoList[index].priority = updatedToDo.priority;
     updatedToDoList[index].completed = updatedToDo.completed;
     setToDoList(updatedToDoList);
   }

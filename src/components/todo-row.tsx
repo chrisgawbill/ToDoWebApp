@@ -29,7 +29,7 @@ export default function ToDoRow({
   }, [toDoItem.completed]);
   return (
     <Row className="toDoRow">
-      <Col xs={2} lg={2}>
+      <Col xs={1} lg={1}>
         <input
           type="checkbox"
           checked={isToDoCompleted}
@@ -43,8 +43,11 @@ export default function ToDoRow({
           }}
         ></input>
       </Col>
-      <Col xs={4} lg={4} onClick={RowOnClickBasicHandler}>
+      <Col xs={4} lg={5} onClick={RowOnClickBasicHandler}>
         {toDoItem.name}
+      </Col>
+      <Col xs={2} lg={1}>
+          {RowPriorityDisplayHandler()}
       </Col>
       <Col xs={2} lg={1}>{RowTagDisplayHandler()}</Col>
       <Col xs={2} lg={2} onClick={RowOnClickBasicHandler}>
@@ -77,5 +80,18 @@ export default function ToDoRow({
       return <></>
     }
     return <Badge pill bg="light" style={{color:toDoItem.tag.color}}>{toDoItem.tag.name}</Badge>
+  }
+  function RowPriorityDisplayHandler(){
+    const priority = toDoItem.priority
+    switch(priority){
+      case 1:
+        return <Badge pill bg="secondary">Low</Badge>
+      case 2:
+        return <Badge pill bg="warning">Medium</Badge>
+      case 3:
+        return <Badge pill bg="danger">High</Badge>
+      default:
+        return <></>
+    }
   }
 }
