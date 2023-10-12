@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Todo, initialToDoData, isCompleted } from "../data/Todo";
+import { Todo, initialToDoData, isCompleted, Priority } from "../data/Todo";
 import { Col, Row } from "react-bootstrap";
 import ToDoInfoPanel from "../components/todo-info-panel";
 import ToDoHolder from "../components/todo-holder";
@@ -12,7 +12,7 @@ export default function Home() {
   const [toDoList, setToDoList] = useState<Todo[]>(initialToDoData);
   const [infoPanelState, setInfoPanelState] = useState<boolean>(false);
   const [currentToDoItem, setCurrentToDoItem] = useState<Todo>(
-    new Todo(0, "", new ToDoTag(-1,"",""), new Date(), isCompleted.NotCompleted)
+    new Todo(0, "", defaultTag, new Date(), Priority.None, isCompleted.NotCompleted)
   );
   const [toDoTags, setToDoTags] = useState<ToDoTag[]>([]);
   return (
@@ -67,6 +67,7 @@ export default function Home() {
     updatedToDoList[index].name = updatedToDo.name;
     updatedToDoList[index].completeByDate = updatedToDo.completeByDate;
     updatedToDoList[index].tag = updatedToDo.tag;
+    updatedToDoList[index].priority = updatedToDo.priority;
     updatedToDoList[index].completed = updatedToDo.completed;
     setToDoList(updatedToDoList);
   }

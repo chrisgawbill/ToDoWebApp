@@ -6,7 +6,7 @@ import {
   ToDoAddRowIcon,
   ToDoEditPanelCancelIcon,
 } from "../assets/icons";
-import { Todo, isCompleted } from "../data/Todo";
+import { Todo, isCompleted, Priority } from "../data/Todo";
 import { useEffect, useState } from "react";
 import "../styles/components/todo-info-panel.css";
 import ToDoAddTagModal from "./todo-add-tag-modal";
@@ -43,6 +43,7 @@ export default function ToDoInfoPanel({
   );
   const [showAddTagModal, setShowAddTagModal] = useState<boolean>(false);
   const [showEditTagModal, setShowEditTagModal] = useState<boolean>(false);
+  const [toDoPriority, setToDoPriority] = useState<Priority>(Priority.None)
   useEffect(() => {
     setToDoItemName(toDoItem.name);
     setIsToDoCompleteByDate(toDoItem.completeByDate);
@@ -85,26 +86,6 @@ export default function ToDoInfoPanel({
                     value={FormateDateForDatePicker(toDoCompleteByDate)}
                     onChange={SaveNewDate}
                   />
-                </Form.Group>
-              </Row>
-              <Row id="todo-status-row">
-                <Form.Group>
-                  <Form.Label>Status: </Form.Label>
-                  <Form.Select
-                    value={toDoItemStatus}
-                    onChange={(event) => {
-                      if (event.target.value === "0") {
-                        setToDoItemStatus(isCompleted.NotCompleted);
-                      } else {
-                        setToDoItemStatus(isCompleted.Completed);
-                      }
-                    }}
-                  >
-                    <option value={isCompleted.NotCompleted}>
-                      Not Completed
-                    </option>
-                    <option value={isCompleted.Completed}>Completed</option>
-                  </Form.Select>
                 </Form.Group>
               </Row>
               <Row id="todo-tag-row">
@@ -161,6 +142,57 @@ export default function ToDoInfoPanel({
                   </Row>
                 </FormGroup>
               </Row>
+              <Row>
+                <Form.Group>
+                  <Form.Label>Priority</Form.Label>
+                  <Form.Select value={toDoPriority} onChange={(event) => {
+                    const priorityNum:number = parseInt(event.target.value)
+                    switch(priorityNum){
+                      case 1:
+                        setToDoPriority(Priority.Low)
+                        break;
+                      case 2:
+                        setToDoPriority(Priority.Medium)
+                        break;
+                      case 3:
+                        setToDoPriority(Priority.High)
+                        break;
+                      default:
+                        setToDoPriority(Priority.None)
+                        break;
+                    }
+                  }}>
+                    <option value={Priority.None}>N/A</option>
+                    <option value={Priority.Low}>Low</option>
+                    <option value={Priority.Medium}>Medium</option>
+                    <option value={Priority.High}>High</option>
+                  </Form.Select>
+                </Form.Group>
+              </Row>
+              <Row id="todo-status-row">
+                <Form.Group>
+                  <Form.Label>Status: </Form.Label>
+                  <Form.Select
+                    value={toDoItemStatus}
+                    onChange={(event) => {
+                      const isCompletedNum:number = parseInt(event.target.value)
+                      switch(isCompletedNum){
+                        case 1:
+                          setToDoItemStatus(isCompleted.Completed)
+                          break;
+                        default:
+                          setToDoItemStatus(isCompleted.NotCompleted)
+                          break;
+                      }
+                    }}
+                  >
+                    <option value={isCompleted.NotCompleted}>
+                      Not Completed
+                    </option>
+                    <option value={isCompleted.Completed}>Completed</option>
+                  </Form.Select>
+                </Form.Group>
+              </Row>
               <Row id="submit-btn-row">
                 <FormGroup>
                   <Button
@@ -202,6 +234,7 @@ export default function ToDoInfoPanel({
       name: toDoItemName,
       tag: toDoTag,
       completeByDate: toDoCompleteByDate,
+      priority: toDoPriority,
       completed: toDoItemStatus,
     };
     if (updatedToDo.id === -1) {
