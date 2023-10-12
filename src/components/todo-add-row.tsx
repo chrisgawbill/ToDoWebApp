@@ -1,5 +1,5 @@
 import { Col, Row } from "react-bootstrap";
-import { Todo, isCompleted } from "../data/Todo";
+import { Todo, isCompleted, Priority } from "../data/Todo";
 import "../styles/components/todo-row.css";
 import { ToDoAddRowIcon } from "../assets/icons";
 import { ToDoTag } from "../data/Tag";
@@ -27,6 +27,7 @@ export default function ToDoAddRow({
       "Add Title",
       new ToDoTag(-1,"",""),
       new Date(),
+      Priority.None,
       isCompleted.NotCompleted
     );
     currentToDoSelected(toDo);
