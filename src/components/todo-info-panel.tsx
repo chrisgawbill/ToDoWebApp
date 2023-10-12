@@ -92,18 +92,7 @@ export default function ToDoInfoPanel({
                   <Col md={5}>
                     <Form.Select
                       value={toDoTag.name}
-                      onChange={(event) => {
-                        const tagValue = event.target.value;
-                        if (tagValue === "N/A") {
-                          setToDoTag(defaultTag);
-                        } else {
-                          const tagIndex: number = toDoTags.findIndex(
-                            (toDoTag) => toDoTag.name === tagValue
-                          );
-                          const tag = toDoTags[tagIndex];
-                          setToDoTag(tag);
-                        }
-                      }}
+                      onChange={tagOnChangeHandler}
                     >
                       <option value={defaultTag.name}>N/A</option>
                       {iterateTagList()}
@@ -142,23 +131,7 @@ export default function ToDoInfoPanel({
                 <Form.Label>Priority:</Form.Label>
                 <Form.Select
                   value={toDoPriority}
-                  onChange={(event) => {
-                    const priorityNum: number = parseInt(event.target.value);
-                    switch (priorityNum) {
-                      case 1:
-                        setToDoPriority(Priority.Low);
-                        break;
-                      case 2:
-                        setToDoPriority(Priority.Medium);
-                        break;
-                      case 3:
-                        setToDoPriority(Priority.High);
-                        break;
-                      default:
-                        setToDoPriority(Priority.None);
-                        break;
-                    }
-                  }}
+                  onChange={priorityOnChangeHandler}
                 >
                   <option value={Priority.None}>N/A</option>
                   <option value={Priority.Low}>Low</option>
@@ -170,17 +143,7 @@ export default function ToDoInfoPanel({
                 <Form.Label>Status:</Form.Label>
                 <Form.Select
                   value={toDoItemStatus}
-                  onChange={(event) => {
-                    const isCompletedNum: number = parseInt(event.target.value);
-                    switch (isCompletedNum) {
-                      case 1:
-                        setToDoItemStatus(isCompleted.Completed);
-                        break;
-                      default:
-                        setToDoItemStatus(isCompleted.NotCompleted);
-                        break;
-                    }
-                  }}
+                  onChange={statusOnChangeHandler}
                 >
                   <option value={isCompleted.NotCompleted}>
                     Not Completed
@@ -294,5 +257,45 @@ export default function ToDoInfoPanel({
   // This function will delete tag from todo
   function revertTagClickHandler() {
     setToDoTag(defaultTag);
+  }
+  function tagOnChangeHandler(event:React.ChangeEvent<HTMLSelectElement>){
+    const tagValue = event.target.value;
+    if (tagValue === "N/A") {
+      setToDoTag(defaultTag);
+    } else {
+      const tagIndex: number = toDoTags.findIndex(
+        (toDoTag) => toDoTag.name === tagValue
+      );
+      const tag = toDoTags[tagIndex];
+      setToDoTag(tag);
+    }
+  }
+  function priorityOnChangeHandler(event:React.ChangeEvent<HTMLSelectElement>){
+    const priorityNum: number = parseInt(event.target.value);
+    switch (priorityNum) {
+      case 1:
+        setToDoPriority(Priority.Low);
+        break;
+      case 2:
+        setToDoPriority(Priority.Medium);
+        break;
+      case 3:
+        setToDoPriority(Priority.High);
+        break;
+      default:
+        setToDoPriority(Priority.None);
+        break;
+    }
+  }
+  function statusOnChangeHandler(event:React.ChangeEvent<HTMLSelectElement>){
+    const isCompletedNum: number = parseInt(event.target.value);
+    switch (isCompletedNum) {
+      case 1:
+        setToDoItemStatus(isCompleted.Completed);
+        break;
+      default:
+        setToDoItemStatus(isCompleted.NotCompleted);
+        break;
+    }
   }
 }
