@@ -17,11 +17,11 @@ interface ToDoInfoPanelProps {
   toDoItem: Todo;
   infoPanelState: boolean;
   setInfoPanelState: Function;
-  deletedTag:Function;
+  deletedTag: Function;
   updateToDo: Function;
   addToDo: Function;
-  toDoTags:ToDoTag[];
-  setToDoTags:Function;
+  toDoTags: ToDoTag[];
+  setToDoTags: Function;
 }
 export default function ToDoInfoPanel({
   toDoItem,
@@ -31,7 +31,7 @@ export default function ToDoInfoPanel({
   updateToDo,
   addToDo,
   toDoTags,
-  setToDoTags
+  setToDoTags,
 }: ToDoInfoPanelProps) {
   const [toDoItemName, setToDoItemName] = useState<string>("");
   const [toDoCompleteByDate, setIsToDoCompleteByDate] = useState<Date>(
@@ -43,7 +43,7 @@ export default function ToDoInfoPanel({
   );
   const [showAddTagModal, setShowAddTagModal] = useState<boolean>(false);
   const [showEditTagModal, setShowEditTagModal] = useState<boolean>(false);
-  const [toDoPriority, setToDoPriority] = useState<Priority>(Priority.None)
+  const [toDoPriority, setToDoPriority] = useState<Priority>(Priority.None);
   useEffect(() => {
     setToDoItemName(toDoItem.name);
     setIsToDoCompleteByDate(toDoItem.completeByDate);
@@ -78,132 +78,125 @@ export default function ToDoInfoPanel({
                   }}
                 />
               </Row>
-              <Row>
-                <Form.Group>
-                  <Form.Label>Complete By: </Form.Label>
-                  <Form.Control
-                    type="date"
-                    value={formateDateForDatePicker(toDoCompleteByDate)}
-                    onChange={saveNewDate}
-                  />
-                </Form.Group>
-              </Row>
-              <Row id="todo-tag-row">
-                <FormGroup>
-                  <Form.Label>Tag</Form.Label>
-                  <Row>
-                    <Col md={5}>
-                      <Form.Select
-                        value={toDoTag.name}
-                        onChange={(event) => {
-                          const tagValue = event.target.value;
-                          if (tagValue === "N/A") {
-                            setToDoTag(defaultTag);
-                          } else {
-                            const tagIndex: number = toDoTags.findIndex(
-                              (toDoTag) => toDoTag.name === tagValue
-                            );
-                            const tag = toDoTags[tagIndex];
-                            setToDoTag(tag);
-                          }
-                        }}
-                      >
-                        <option value={defaultTag.name}>N/A</option>
-                        {iterateTagList()}
-                      </Form.Select>
-                    </Col>
-                    <Col md={2}>
-                      <Button
-                        variant="outline-success"
-                        title="Add Tag"
-                        onClick={addTagClickHandler}
-                      >
-                        <ToDoAddRowIcon />
-                      </Button>
-                    </Col>
-                    <Col md={2}>
-                      <Button
-                        variant="outline-warning"
-                        title="Edit Tags"
-                        onClick={editTagClickHandler}
-                      >
-                        <EditIcon />
-                      </Button>
-                    </Col>
-                    <Col md={2}>
-                      <Button
-                        variant="outline-danger"
-                        title="Remove Tag From ToDo"
-                        onClick={revertTagClickHandler}
-                      >
-                        <RevertTagIcon />
-                      </Button>
-                    </Col>
-                  </Row>
-                </FormGroup>
-              </Row>
-              <Row>
-                <Form.Group>
-                  <Form.Label>Priority</Form.Label>
-                  <Form.Select value={toDoPriority} onChange={(event) => {
-                    const priorityNum:number = parseInt(event.target.value)
-                    switch(priorityNum){
+              <Form.Group>
+                <Form.Label>Complete By: </Form.Label>
+                <Form.Control
+                  type="date"
+                  value={formateDateForDatePicker(toDoCompleteByDate)}
+                  onChange={saveNewDate}
+                />
+              </Form.Group>
+              <FormGroup id="todo-tag-row">
+                <Form.Label>Tag</Form.Label>
+                <Row>
+                  <Col md={5}>
+                    <Form.Select
+                      value={toDoTag.name}
+                      onChange={(event) => {
+                        const tagValue = event.target.value;
+                        if (tagValue === "N/A") {
+                          setToDoTag(defaultTag);
+                        } else {
+                          const tagIndex: number = toDoTags.findIndex(
+                            (toDoTag) => toDoTag.name === tagValue
+                          );
+                          const tag = toDoTags[tagIndex];
+                          setToDoTag(tag);
+                        }
+                      }}
+                    >
+                      <option value={defaultTag.name}>N/A</option>
+                      {iterateTagList()}
+                    </Form.Select>
+                  </Col>
+                  <Col md={2}>
+                    <Button
+                      variant="outline-success"
+                      title="Add Tag"
+                      onClick={addTagClickHandler}
+                    >
+                      <ToDoAddRowIcon />
+                    </Button>
+                  </Col>
+                  <Col md={2}>
+                    <Button
+                      variant="outline-warning"
+                      title="Edit Tags"
+                      onClick={editTagClickHandler}
+                    >
+                      <EditIcon />
+                    </Button>
+                  </Col>
+                  <Col md={2}>
+                    <Button
+                      variant="outline-danger"
+                      title="Remove Tag From ToDo"
+                      onClick={revertTagClickHandler}
+                    >
+                      <RevertTagIcon />
+                    </Button>
+                  </Col>
+                </Row>
+              </FormGroup>
+              <Form.Group>
+                <Form.Label>Priority</Form.Label>
+                <Form.Select
+                  value={toDoPriority}
+                  onChange={(event) => {
+                    const priorityNum: number = parseInt(event.target.value);
+                    switch (priorityNum) {
                       case 1:
-                        setToDoPriority(Priority.Low)
+                        setToDoPriority(Priority.Low);
                         break;
                       case 2:
-                        setToDoPriority(Priority.Medium)
+                        setToDoPriority(Priority.Medium);
                         break;
                       case 3:
-                        setToDoPriority(Priority.High)
+                        setToDoPriority(Priority.High);
                         break;
                       default:
-                        setToDoPriority(Priority.None)
+                        setToDoPriority(Priority.None);
                         break;
                     }
-                  }}>
-                    <option value={Priority.None}>N/A</option>
-                    <option value={Priority.Low}>Low</option>
-                    <option value={Priority.Medium}>Medium</option>
-                    <option value={Priority.High}>High</option>
-                  </Form.Select>
-                </Form.Group>
-              </Row>
-              <Row id="todo-status-row">
-                <Form.Group>
-                  <Form.Label>Status: </Form.Label>
-                  <Form.Select
-                    value={toDoItemStatus}
-                    onChange={(event) => {
-                      const isCompletedNum:number = parseInt(event.target.value)
-                      switch(isCompletedNum){
-                        case 1:
-                          setToDoItemStatus(isCompleted.Completed)
-                          break;
-                        default:
-                          setToDoItemStatus(isCompleted.NotCompleted)
-                          break;
-                      }
-                    }}
-                  >
-                    <option value={isCompleted.NotCompleted}>
-                      Not Completed
-                    </option>
-                    <option value={isCompleted.Completed}>Completed</option>
-                  </Form.Select>
-                </Form.Group>
-              </Row>
-              <Row id="submit-btn-row">
-                <FormGroup>
-                  <Button
-                    variant="outline-success"
-                    type="submit"
-                    title="Save Changes"
-                  >
-                    Save
-                  </Button>
-                </FormGroup>
-              </Row>
+                  }}
+                >
+                  <option value={Priority.None}>N/A</option>
+                  <option value={Priority.Low}>Low</option>
+                  <option value={Priority.Medium}>Medium</option>
+                  <option value={Priority.High}>High</option>
+                </Form.Select>
+              </Form.Group>
+              <Form.Group id="todo-status-row">
+                <Form.Label>Status: </Form.Label>
+                <Form.Select
+                  value={toDoItemStatus}
+                  onChange={(event) => {
+                    const isCompletedNum: number = parseInt(event.target.value);
+                    switch (isCompletedNum) {
+                      case 1:
+                        setToDoItemStatus(isCompleted.Completed);
+                        break;
+                      default:
+                        setToDoItemStatus(isCompleted.NotCompleted);
+                        break;
+                    }
+                  }}
+                >
+                  <option value={isCompleted.NotCompleted}>
+                    Not Completed
+                  </option>
+                  <option value={isCompleted.Completed}>Completed</option>
+                </Form.Select>
+              </Form.Group>
+              <FormGroup id="submit-btn-row">
+                <Button
+                  variant="outline-success"
+                  type="submit"
+                  title="Save Changes"
+                >
+                  Save
+                </Button>
+              </FormGroup>
             </Col>
           </Form>
         </div>
