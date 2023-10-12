@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Todo, initialToDoData, isCompleted } from "../data/Todo";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import ToDoInfoPanel from "../components/todo-info-panel";
 import ToDoHolder from "../components/todo-holder";
+import { ToDoTag, defaultTag } from "../data/Tag";
 /**
  *
  * @returns HomePage with Components loaded
@@ -11,8 +12,9 @@ export default function Home() {
   const [toDoList, setToDoList] = useState<Todo[]>(initialToDoData);
   const [infoPanelState, setInfoPanelState] = useState<boolean>(false);
   const [currentToDoItem, setCurrentToDoItem] = useState<Todo>(
-    new Todo(0, "", new Date(), isCompleted.NotCompleted)
+    new Todo(0, "", new ToDoTag(-1,"",""), new Date(), isCompleted.NotCompleted)
   );
+  const [toDoTags, setToDoTags] = useState<ToDoTag[]>([]);
   return (
     <div>
       <Row>
@@ -42,8 +44,11 @@ export default function Home() {
           toDoItem={currentToDoItem}
           infoPanelState={infoPanelState}
           setInfoPanelState={setInfoPanelState}
+          deletedTag={DeletedTag}
           updateToDo={UpdateToDo}
           addToDo={AddToDo}
+          toDoTags={toDoTags}
+          setToDoTags={setToDoTags}
         />
       );
     } else {
@@ -61,6 +66,7 @@ export default function Home() {
     );
     updatedToDoList[index].name = updatedToDo.name;
     updatedToDoList[index].completeByDate = updatedToDo.completeByDate;
+    updatedToDoList[index].tag = updatedToDo.tag;
     updatedToDoList[index].completed = updatedToDo.completed;
     setToDoList(updatedToDoList);
   }
@@ -77,7 +83,18 @@ export default function Home() {
     toDoItem.id = index;
     updatedToDoList.push(toDoItem);
 
-    console.log(toDoItem)
     setToDoList(updatedToDoList);
+  }
+  function DeletedTag(deletedTagArray:ToDoTag[]){
+    const updatedToDoList = [...toDoList]
+    for(let i = 0; i < deletedTagArray.length; i++){
+      const currentTag = deletedTagArray[i]
+      for(var toDo of updatedToDoList){
+        if(toDo.tag.id === currentTag.id){
+          toDo.tag = defaultTag
+        }
+      }
+      setToDoList(updatedToDoList)
+    }
   }
 }

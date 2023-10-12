@@ -1,31 +1,48 @@
 import { Button, Col, Collapse, Form, FormGroup, Row } from "react-bootstrap";
 import { format } from "ts-date/esm/locale/en";
-import { ToDoEditPanelCancelIcon } from "../assets/icons";
+import {
+  EditIcon,
+  RevertTagIcon,
+  ToDoAddRowIcon,
+  ToDoEditPanelCancelIcon,
+} from "../assets/icons";
 import { Todo, isCompleted } from "../data/Todo";
 import { useEffect, useState } from "react";
 import "../styles/components/todo-info-panel.css";
+import ToDoAddTagModal from "./todo-add-tag-modal";
+import { ToDoTag, defaultTag } from "../data/Tag";
+import EditTagModal from "./todo-edit-tag-modal";
 
 interface ToDoInfoPanelProps {
   toDoItem: Todo;
   infoPanelState: boolean;
   setInfoPanelState: Function;
+  deletedTag:Function;
   updateToDo: Function;
   addToDo: Function;
+  toDoTags:ToDoTag[];
+  setToDoTags:Function;
 }
 export default function ToDoInfoPanel({
   toDoItem,
   infoPanelState,
   setInfoPanelState,
+  deletedTag,
   updateToDo,
   addToDo,
+  toDoTags,
+  setToDoTags
 }: ToDoInfoPanelProps) {
   const [toDoItemName, setToDoItemName] = useState<string>("");
   const [toDoCompleteByDate, setIsToDoCompleteByDate] = useState<Date>(
     new Date()
   );
+  const [toDoTag, setToDoTag] = useState<ToDoTag>(defaultTag);
   const [toDoItemStatus, setToDoItemStatus] = useState<isCompleted>(
     isCompleted.Completed
   );
+  const [showAddTagModal, setShowAddTagModal] = useState<boolean>(false);
+  const [showEditTagModal, setShowEditTagModal] = useState<boolean>(false);
   useEffect(() => {
     setToDoItemName(toDoItem.name);
     setIsToDoCompleteByDate(toDoItem.completeByDate);
@@ -39,6 +56,7 @@ export default function ToDoInfoPanel({
             <Col md={1}>
               <Row id="cancel-btn-row">
                 <Button
+                  title="Close Panel"
                   onClick={() => {
                     setInfoPanelState(false);
                   }}
@@ -88,18 +106,89 @@ export default function ToDoInfoPanel({
                     <option value={isCompleted.Completed}>Completed</option>
                   </Form.Select>
                 </Form.Group>
-                <Row id="submit-btn-row">
-                  <FormGroup>
-                    <Button variant="outline-success" type="submit">
-                      Save
-                    </Button>
-                  </FormGroup>
-                </Row>
+              </Row>
+              <Row id="todo-tag-row">
+                <FormGroup>
+                  <Form.Label>Tag</Form.Label>
+                  <Row>
+                    <Col md={5}>
+                      <Form.Select
+                        value={toDoTag.name}
+                        onChange={(event) => {
+                          const tagValue = event.target.value;
+                          if (tagValue === "N/A") {
+                            setToDoTag(defaultTag);
+                          } else {
+                            const tagIndex: number = toDoTags.findIndex(
+                              (toDoTag) => toDoTag.name === tagValue
+                            );
+                            const tag = toDoTags[tagIndex];
+                            setToDoTag(tag);
+                          }
+                        }}
+                      >
+                        <option value={defaultTag.name}>N/A</option>
+                        {IterateTagList()}
+                      </Form.Select>
+                    </Col>
+                    <Col md={2}>
+                      <Button
+                        variant="outline-success"
+                        title="Add Tag"
+                        onClick={AddTagClickHandler}
+                      >
+                        <ToDoAddRowIcon />
+                      </Button>
+                    </Col>
+                    <Col md={2}>
+                      <Button
+                        variant="outline-warning"
+                        title="Edit Tags"
+                        onClick={EditTagClickHandler}
+                      >
+                        <EditIcon />
+                      </Button>
+                    </Col>
+                    <Col md={2}>
+                      <Button
+                        variant="outline-danger"
+                        title="Remove Tag From ToDo"
+                        onClick={RevertTagClickHandler}
+                      >
+                        <RevertTagIcon />
+                      </Button>
+                    </Col>
+                  </Row>
+                </FormGroup>
+              </Row>
+              <Row id="submit-btn-row">
+                <FormGroup>
+                  <Button
+                    variant="outline-success"
+                    type="submit"
+                    title="Save Changes"
+                  >
+                    Save
+                  </Button>
+                </FormGroup>
               </Row>
             </Col>
           </Form>
         </div>
       </Collapse>
+      <ToDoAddTagModal
+        showModal={showAddTagModal}
+        addTagOnSubmit={AddTag}
+        setShowAddTagModal={setShowAddTagModal}
+      />
+      <EditTagModal
+        showModal={showEditTagModal}
+        setShowModal={setShowEditTagModal}
+        setToDoTag={setToDoTag}
+        deletedTag={deletedTag}
+        tagArray={toDoTags}
+        setTagArray={setToDoTags}
+      />
     </div>
   );
   /**
@@ -111,6 +200,7 @@ export default function ToDoInfoPanel({
     const updatedToDo: Todo = {
       id: toDoItem.id,
       name: toDoItemName,
+      tag: toDoTag,
       completeByDate: toDoCompleteByDate,
       completed: toDoItemStatus,
     };
@@ -144,8 +234,35 @@ export default function ToDoInfoPanel({
     const month: number = parseInt(splitDateString[1]) - 1;
 
     const day: number = parseInt(splitDateString[2]);
-    console.log(month);
     const correctedDate = new Date(year, month, day);
     setIsToDoCompleteByDate(correctedDate);
+  }
+  function AddTagClickHandler() {
+    setShowAddTagModal(true);
+  }
+  function AddTag(tag: ToDoTag) {
+    const updatedTagArray: ToDoTag[] = [...toDoTags];
+    tag.id = updatedTagArray.length;
+    updatedTagArray.push(tag);
+    setToDoTags(updatedTagArray);
+
+    if (updatedTagArray.length === 1) {
+      setToDoTag(tag);
+    }
+  }
+  function IterateTagList() {
+    return toDoTags.map((tag, i) => (
+      <option value={tag.name} key={i}>
+        {tag.name}
+      </option>
+    ));
+  }
+  // This function would pop up a modal to edit tags
+  function EditTagClickHandler() {
+    setShowEditTagModal(true);
+  }
+  // This function will delete tag from todo
+  function RevertTagClickHandler() {
+    setToDoTag(defaultTag);
   }
 }

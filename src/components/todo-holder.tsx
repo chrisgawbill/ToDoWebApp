@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Container, Row } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import { Todo, isCompleted } from "../data/Todo";
 import ToDoRow from "./todo-row";
 import ToDoAddRow from "./todo-add-row";

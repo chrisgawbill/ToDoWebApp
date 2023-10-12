@@ -1,4 +1,4 @@
-import { Col, Row } from "react-bootstrap";
+import { Badge, Col, Row } from "react-bootstrap";
 import { Todo, isCompleted } from "../data/Todo";
 import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
@@ -43,14 +43,15 @@ export default function ToDoRow({
           }}
         ></input>
       </Col>
-      <Col xs={4} lg={6} onClick={RowOnClickBasicHandler}>
+      <Col xs={4} lg={4} onClick={RowOnClickBasicHandler}>
         {toDoItem.name}
       </Col>
+      <Col xs={2} lg={1}>{RowTagDisplayHandler()}</Col>
       <Col xs={2} lg={2} onClick={RowOnClickBasicHandler}>
         {toDoItem.completeByDate.toLocaleDateString()}
       </Col>
-      <Col xs={4} lg={2}>
-        <Button variant="outline-danger" size="sm" onClick={DeleteOnClick}>
+      <Col xs={1} lg={2}>
+        <Button variant="outline-danger" size="sm" title="Delete ToDo" onClick={DeleteOnClick}>
           <ToDoRowDeleteIcon />
         </Button>
       </Col>
@@ -69,5 +70,12 @@ export default function ToDoRow({
   function RowOnClickBasicHandler() {
     rowOnClick(true);
     currentToDoSelected(toDoItem);
+  }
+  function RowTagDisplayHandler(){
+    const tag = toDoItem.tag
+    if(tag.name === "N/A"){
+      return <></>
+    }
+    return <Badge pill bg="light" style={{color:toDoItem.tag.color}}>{toDoItem.tag.name}</Badge>
   }
 }
