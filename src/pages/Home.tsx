@@ -14,6 +14,7 @@ export default function Home() {
   const [currentToDoItem, setCurrentToDoItem] = useState<Todo>(
     new Todo(0, "", new ToDoTag(-1,"",""), new Date(), isCompleted.NotCompleted)
   );
+  const [toDoTags, setToDoTags] = useState<ToDoTag[]>([]);
   return (
     <div>
       <Row>
@@ -46,6 +47,8 @@ export default function Home() {
           deletedTag={DeletedTag}
           updateToDo={UpdateToDo}
           addToDo={AddToDo}
+          toDoTags={toDoTags}
+          setToDoTags={setToDoTags}
         />
       );
     } else {

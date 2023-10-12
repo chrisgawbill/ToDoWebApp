@@ -5,7 +5,6 @@ import {
   RevertTagIcon,
   ToDoAddRowIcon,
   ToDoEditPanelCancelIcon,
-  ToDoRowDeleteIcon,
 } from "../assets/icons";
 import { Todo, isCompleted } from "../data/Todo";
 import { useEffect, useState } from "react";
@@ -21,6 +20,8 @@ interface ToDoInfoPanelProps {
   deletedTag:Function;
   updateToDo: Function;
   addToDo: Function;
+  toDoTags:ToDoTag[];
+  setToDoTags:Function;
 }
 export default function ToDoInfoPanel({
   toDoItem,
@@ -29,6 +30,8 @@ export default function ToDoInfoPanel({
   deletedTag,
   updateToDo,
   addToDo,
+  toDoTags,
+  setToDoTags
 }: ToDoInfoPanelProps) {
   const [toDoItemName, setToDoItemName] = useState<string>("");
   const [toDoCompleteByDate, setIsToDoCompleteByDate] = useState<Date>(
@@ -40,7 +43,6 @@ export default function ToDoInfoPanel({
   );
   const [showAddTagModal, setShowAddTagModal] = useState<boolean>(false);
   const [showEditTagModal, setShowEditTagModal] = useState<boolean>(false);
-  const [toDoTags, setToDoTags] = useState<ToDoTag[]>([]);
   useEffect(() => {
     setToDoItemName(toDoItem.name);
     setIsToDoCompleteByDate(toDoItem.completeByDate);
