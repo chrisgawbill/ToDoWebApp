@@ -67,7 +67,7 @@ export default function ToDoInfoPanel({
               </Row>
             </Col>
             <Col md={11}>
-              <Row id="todo-name-row">
+              <Row className="edit-panel-row">
                 <Form.Control
                   type="text"
                   id="todo-name-field"
@@ -78,16 +78,16 @@ export default function ToDoInfoPanel({
                   }}
                 />
               </Row>
-              <Form.Group>
-                <Form.Label>Complete By: </Form.Label>
+              <Form.Group className="edit-panel-row">
+                <Form.Label>Complete By:</Form.Label>
                 <Form.Control
                   type="date"
                   value={formateDateForDatePicker(toDoCompleteByDate)}
                   onChange={saveNewDate}
                 />
               </Form.Group>
-              <FormGroup id="todo-tag-row">
-                <Form.Label>Tag</Form.Label>
+              <FormGroup className="edit-panel-row">
+                <Form.Label>Tag:</Form.Label>
                 <Row>
                   <Col md={5}>
                     <Form.Select
@@ -138,8 +138,8 @@ export default function ToDoInfoPanel({
                   </Col>
                 </Row>
               </FormGroup>
-              <Form.Group>
-                <Form.Label>Priority</Form.Label>
+              <Form.Group className="edit-panel-row">
+                <Form.Label>Priority:</Form.Label>
                 <Form.Select
                   value={toDoPriority}
                   onChange={(event) => {
@@ -166,8 +166,8 @@ export default function ToDoInfoPanel({
                   <option value={Priority.High}>High</option>
                 </Form.Select>
               </Form.Group>
-              <Form.Group id="todo-status-row">
-                <Form.Label>Status: </Form.Label>
+              <Form.Group className="edit-panel-row">
+                <Form.Label>Status:</Form.Label>
                 <Form.Select
                   value={toDoItemStatus}
                   onChange={(event) => {
@@ -188,7 +188,7 @@ export default function ToDoInfoPanel({
                   <option value={isCompleted.Completed}>Completed</option>
                 </Form.Select>
               </Form.Group>
-              <FormGroup id="submit-btn-row">
+              <Form.Group className="edit-panel-row">
                 <Button
                   variant="outline-success"
                   type="submit"
@@ -196,7 +196,7 @@ export default function ToDoInfoPanel({
                 >
                   Save
                 </Button>
-              </FormGroup>
+              </Form.Group>
             </Col>
           </Form>
         </div>
@@ -276,6 +276,10 @@ export default function ToDoInfoPanel({
       setToDoTag(tag);
     }
   }
+  /**
+   * 
+   * @returns <option> that contains the tag name
+   */
   function iterateTagList() {
     return toDoTags.map((tag, i) => (
       <option value={tag.name} key={i}>
