@@ -53,7 +53,7 @@ export default function ToDoInfoPanel({
     <div>
       <Collapse in={infoPanelState} dimension={"width"}>
         <div>
-          <Form onSubmit={EditToDoFormSubmit} id="edit-todo-panel">
+          <Form onSubmit={editToDoFormSubmit} id="edit-todo-panel">
             <Col md={1}>
               <Row id="cancel-btn-row">
                 <Button
@@ -83,8 +83,8 @@ export default function ToDoInfoPanel({
                   <Form.Label>Complete By: </Form.Label>
                   <Form.Control
                     type="date"
-                    value={FormateDateForDatePicker(toDoCompleteByDate)}
-                    onChange={SaveNewDate}
+                    value={formateDateForDatePicker(toDoCompleteByDate)}
+                    onChange={saveNewDate}
                   />
                 </Form.Group>
               </Row>
@@ -109,14 +109,14 @@ export default function ToDoInfoPanel({
                         }}
                       >
                         <option value={defaultTag.name}>N/A</option>
-                        {IterateTagList()}
+                        {iterateTagList()}
                       </Form.Select>
                     </Col>
                     <Col md={2}>
                       <Button
                         variant="outline-success"
                         title="Add Tag"
-                        onClick={AddTagClickHandler}
+                        onClick={addTagClickHandler}
                       >
                         <ToDoAddRowIcon />
                       </Button>
@@ -125,7 +125,7 @@ export default function ToDoInfoPanel({
                       <Button
                         variant="outline-warning"
                         title="Edit Tags"
-                        onClick={EditTagClickHandler}
+                        onClick={editTagClickHandler}
                       >
                         <EditIcon />
                       </Button>
@@ -134,7 +134,7 @@ export default function ToDoInfoPanel({
                       <Button
                         variant="outline-danger"
                         title="Remove Tag From ToDo"
-                        onClick={RevertTagClickHandler}
+                        onClick={revertTagClickHandler}
                       >
                         <RevertTagIcon />
                       </Button>
@@ -210,7 +210,7 @@ export default function ToDoInfoPanel({
       </Collapse>
       <ToDoAddTagModal
         showModal={showAddTagModal}
-        addTagOnSubmit={AddTag}
+        addTagOnSubmit={addTag}
         setShowAddTagModal={setShowAddTagModal}
       />
       <EditTagModal
@@ -227,7 +227,7 @@ export default function ToDoInfoPanel({
    * Sends the updated toDo back up to Home (so it can be updated in list) and closes the panel
    * @param e
    */
-  function EditToDoFormSubmit(e: React.FormEvent<EventTarget>) {
+  function editToDoFormSubmit(e: React.FormEvent<EventTarget>) {
     e.preventDefault();
     const updatedToDo: Todo = {
       id: toDoItem.id,
@@ -249,7 +249,7 @@ export default function ToDoInfoPanel({
    * @param completeByDate
    * @returns
    */
-  function FormateDateForDatePicker(completeByDate: Date) {
+  function formateDateForDatePicker(completeByDate: Date) {
     const formattedDate = format(completeByDate, "YYYY-MM-DD")?.toString();
     // var localBrowserTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     // console.log(formattedDate);
@@ -259,7 +259,7 @@ export default function ToDoInfoPanel({
    * Saves new date in correct format
    * @param event
    */
-  function SaveNewDate(event: React.ChangeEvent<HTMLInputElement>) {
+  function saveNewDate(event: React.ChangeEvent<HTMLInputElement>) {
     const st: string = event?.target.value.toString();
     const splitDateString: string[] = st.split("-");
     const year: number = parseInt(splitDateString[0]);
@@ -270,10 +270,10 @@ export default function ToDoInfoPanel({
     const correctedDate = new Date(year, month, day);
     setIsToDoCompleteByDate(correctedDate);
   }
-  function AddTagClickHandler() {
+  function addTagClickHandler() {
     setShowAddTagModal(true);
   }
-  function AddTag(tag: ToDoTag) {
+  function addTag(tag: ToDoTag) {
     const updatedTagArray: ToDoTag[] = [...toDoTags];
     tag.id = updatedTagArray.length;
     updatedTagArray.push(tag);
@@ -283,7 +283,7 @@ export default function ToDoInfoPanel({
       setToDoTag(tag);
     }
   }
-  function IterateTagList() {
+  function iterateTagList() {
     return toDoTags.map((tag, i) => (
       <option value={tag.name} key={i}>
         {tag.name}
@@ -291,11 +291,11 @@ export default function ToDoInfoPanel({
     ));
   }
   // This function would pop up a modal to edit tags
-  function EditTagClickHandler() {
+  function editTagClickHandler() {
     setShowEditTagModal(true);
   }
   // This function will delete tag from todo
-  function RevertTagClickHandler() {
+  function revertTagClickHandler() {
     setToDoTag(defaultTag);
   }
 }
