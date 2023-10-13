@@ -43,18 +43,18 @@ export default function ToDoRow({
           }}
         ></input>
       </Col>
-      <Col xs={4} lg={5} onClick={RowOnClickBasicHandler}>
+      <Col xs={4} lg={5} onClick={rowOnClickBasicHandler}>
         {toDoItem.name}
       </Col>
       <Col xs={2} lg={1}>
-          {RowPriorityDisplayHandler()}
+          {rowPriorityDisplayHandler()}
       </Col>
-      <Col xs={2} lg={1}>{RowTagDisplayHandler()}</Col>
-      <Col xs={2} lg={2} onClick={RowOnClickBasicHandler}>
+      <Col xs={2} lg={1}>{rowTagDisplayHandler()}</Col>
+      <Col xs={2} lg={2} onClick={rowOnClickBasicHandler}>
         {toDoItem.completeByDate.toLocaleDateString()}
       </Col>
       <Col xs={1} lg={2}>
-        <Button variant="outline-danger" size="sm" title="Delete ToDo" onClick={DeleteOnClick}>
+        <Button variant="outline-danger" size="sm" title="Delete ToDo" onClick={deleteOnClick}>
           <ToDoRowDeleteIcon />
         </Button>
       </Col>
@@ -63,25 +63,25 @@ export default function ToDoRow({
   /**
    * Handles the delete icon onClick event. Deletes row and closes panel
    */
-  function DeleteOnClick() {
+  function deleteOnClick() {
     deleteToDo(toDoItem.id);
     rowOnClick(false);
   }
   /**
    * Handles a basic on click
    */
-  function RowOnClickBasicHandler() {
+  function rowOnClickBasicHandler() {
     rowOnClick(true);
     currentToDoSelected(toDoItem);
   }
-  function RowTagDisplayHandler(){
+  function rowTagDisplayHandler(){
     const tag = toDoItem.tag
     if(tag.name === "N/A"){
       return <></>
     }
     return <Badge pill bg="light" style={{color:toDoItem.tag.color}}>{toDoItem.tag.name}</Badge>
   }
-  function RowPriorityDisplayHandler(){
+  function rowPriorityDisplayHandler(){
     const priority = toDoItem.priority
     switch(priority){
       case 1:

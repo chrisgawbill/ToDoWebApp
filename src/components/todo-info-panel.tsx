@@ -17,11 +17,11 @@ interface ToDoInfoPanelProps {
   toDoItem: Todo;
   infoPanelState: boolean;
   setInfoPanelState: Function;
-  deletedTag:Function;
+  deletedTag: Function;
   updateToDo: Function;
   addToDo: Function;
-  toDoTags:ToDoTag[];
-  setToDoTags:Function;
+  toDoTags: ToDoTag[];
+  setToDoTags: Function;
 }
 export default function ToDoInfoPanel({
   toDoItem,
@@ -31,7 +31,7 @@ export default function ToDoInfoPanel({
   updateToDo,
   addToDo,
   toDoTags,
-  setToDoTags
+  setToDoTags,
 }: ToDoInfoPanelProps) {
   const [toDoItemName, setToDoItemName] = useState<string>("");
   const [toDoCompleteByDate, setIsToDoCompleteByDate] = useState<Date>(
@@ -43,7 +43,7 @@ export default function ToDoInfoPanel({
   );
   const [showAddTagModal, setShowAddTagModal] = useState<boolean>(false);
   const [showEditTagModal, setShowEditTagModal] = useState<boolean>(false);
-  const [toDoPriority, setToDoPriority] = useState<Priority>(Priority.None)
+  const [toDoPriority, setToDoPriority] = useState<Priority>(Priority.None);
   useEffect(() => {
     setToDoItemName(toDoItem.name);
     setIsToDoCompleteByDate(toDoItem.completeByDate);
@@ -53,7 +53,7 @@ export default function ToDoInfoPanel({
     <div>
       <Collapse in={infoPanelState} dimension={"width"}>
         <div>
-          <Form onSubmit={EditToDoFormSubmit} id="edit-todo-panel">
+          <Form onSubmit={editToDoFormSubmit} id="edit-todo-panel">
             <Col md={1}>
               <Row id="cancel-btn-row">
                 <Button
@@ -67,150 +67,104 @@ export default function ToDoInfoPanel({
               </Row>
             </Col>
             <Col md={11}>
-              <Row id="todo-name-row">
+              <Row className="edit-panel-row">
                 <Form.Control
                   type="text"
                   id="todo-name-field"
                   value={toDoItemName}
                   style={{ border: "none", width: "100%" }}
-                  onChange={(event) => {
-                    setToDoItemName(event.target.value);
-                  }}
+                  onChange={toDoItemNameChangeHandler}
                 />
               </Row>
-              <Row>
-                <Form.Group>
-                  <Form.Label>Complete By: </Form.Label>
-                  <Form.Control
-                    type="date"
-                    value={FormateDateForDatePicker(toDoCompleteByDate)}
-                    onChange={SaveNewDate}
-                  />
-                </Form.Group>
-              </Row>
-              <Row id="todo-tag-row">
-                <FormGroup>
-                  <Form.Label>Tag</Form.Label>
-                  <Row>
-                    <Col md={5}>
-                      <Form.Select
-                        value={toDoTag.name}
-                        onChange={(event) => {
-                          const tagValue = event.target.value;
-                          if (tagValue === "N/A") {
-                            setToDoTag(defaultTag);
-                          } else {
-                            const tagIndex: number = toDoTags.findIndex(
-                              (toDoTag) => toDoTag.name === tagValue
-                            );
-                            const tag = toDoTags[tagIndex];
-                            setToDoTag(tag);
-                          }
-                        }}
-                      >
-                        <option value={defaultTag.name}>N/A</option>
-                        {IterateTagList()}
-                      </Form.Select>
-                    </Col>
-                    <Col md={2}>
-                      <Button
-                        variant="outline-success"
-                        title="Add Tag"
-                        onClick={AddTagClickHandler}
-                      >
-                        <ToDoAddRowIcon />
-                      </Button>
-                    </Col>
-                    <Col md={2}>
-                      <Button
-                        variant="outline-warning"
-                        title="Edit Tags"
-                        onClick={EditTagClickHandler}
-                      >
-                        <EditIcon />
-                      </Button>
-                    </Col>
-                    <Col md={2}>
-                      <Button
-                        variant="outline-danger"
-                        title="Remove Tag From ToDo"
-                        onClick={RevertTagClickHandler}
-                      >
-                        <RevertTagIcon />
-                      </Button>
-                    </Col>
-                  </Row>
-                </FormGroup>
-              </Row>
-              <Row>
-                <Form.Group>
-                  <Form.Label>Priority</Form.Label>
-                  <Form.Select value={toDoPriority} onChange={(event) => {
-                    const priorityNum:number = parseInt(event.target.value)
-                    switch(priorityNum){
-                      case 1:
-                        setToDoPriority(Priority.Low)
-                        break;
-                      case 2:
-                        setToDoPriority(Priority.Medium)
-                        break;
-                      case 3:
-                        setToDoPriority(Priority.High)
-                        break;
-                      default:
-                        setToDoPriority(Priority.None)
-                        break;
-                    }
-                  }}>
-                    <option value={Priority.None}>N/A</option>
-                    <option value={Priority.Low}>Low</option>
-                    <option value={Priority.Medium}>Medium</option>
-                    <option value={Priority.High}>High</option>
-                  </Form.Select>
-                </Form.Group>
-              </Row>
-              <Row id="todo-status-row">
-                <Form.Group>
-                  <Form.Label>Status: </Form.Label>
-                  <Form.Select
-                    value={toDoItemStatus}
-                    onChange={(event) => {
-                      const isCompletedNum:number = parseInt(event.target.value)
-                      switch(isCompletedNum){
-                        case 1:
-                          setToDoItemStatus(isCompleted.Completed)
-                          break;
-                        default:
-                          setToDoItemStatus(isCompleted.NotCompleted)
-                          break;
-                      }
-                    }}
-                  >
-                    <option value={isCompleted.NotCompleted}>
-                      Not Completed
-                    </option>
-                    <option value={isCompleted.Completed}>Completed</option>
-                  </Form.Select>
-                </Form.Group>
-              </Row>
-              <Row id="submit-btn-row">
-                <FormGroup>
-                  <Button
-                    variant="outline-success"
-                    type="submit"
-                    title="Save Changes"
-                  >
-                    Save
-                  </Button>
-                </FormGroup>
-              </Row>
+              <Form.Group className="edit-panel-row">
+                <Form.Label>Complete By:</Form.Label>
+                <Form.Control
+                  type="date"
+                  value={formateDateForDatePicker(toDoCompleteByDate)}
+                  onChange={saveNewDate}
+                />
+              </Form.Group>
+              <FormGroup className="edit-panel-row">
+                <Form.Label>Tag:</Form.Label>
+                <Row>
+                  <Col md={5}>
+                    <Form.Select
+                      value={toDoTag.name}
+                      onChange={tagOnChangeHandler}
+                    >
+                      <option value={defaultTag.name}>N/A</option>
+                      {iterateTagList()}
+                    </Form.Select>
+                  </Col>
+                  <Col md={2}>
+                    <Button
+                      variant="outline-success"
+                      title="Add Tag"
+                      onClick={addTagClickHandler}
+                    >
+                      <ToDoAddRowIcon />
+                    </Button>
+                  </Col>
+                  <Col md={2}>
+                    <Button
+                      variant="outline-warning"
+                      title="Edit Tags"
+                      onClick={editTagClickHandler}
+                    >
+                      <EditIcon />
+                    </Button>
+                  </Col>
+                  <Col md={2}>
+                    <Button
+                      variant="outline-danger"
+                      title="Remove Tag From ToDo"
+                      onClick={revertTagClickHandler}
+                    >
+                      <RevertTagIcon />
+                    </Button>
+                  </Col>
+                </Row>
+              </FormGroup>
+              <Form.Group className="edit-panel-row">
+                <Form.Label>Priority:</Form.Label>
+                <Form.Select
+                  value={toDoPriority}
+                  onChange={priorityOnChangeHandler}
+                >
+                  <option value={Priority.None}>N/A</option>
+                  <option value={Priority.Low}>Low</option>
+                  <option value={Priority.Medium}>Medium</option>
+                  <option value={Priority.High}>High</option>
+                </Form.Select>
+              </Form.Group>
+              <Form.Group className="edit-panel-row">
+                <Form.Label>Status:</Form.Label>
+                <Form.Select
+                  value={toDoItemStatus}
+                  onChange={statusOnChangeHandler}
+                >
+                  <option value={isCompleted.NotCompleted}>
+                    Not Completed
+                  </option>
+                  <option value={isCompleted.Completed}>Completed</option>
+                </Form.Select>
+              </Form.Group>
+              <Form.Group className="edit-panel-row">
+                <Button
+                  variant="outline-success"
+                  type="submit"
+                  title="Save Changes"
+                >
+                  Save
+                </Button>
+              </Form.Group>
             </Col>
           </Form>
         </div>
       </Collapse>
       <ToDoAddTagModal
         showModal={showAddTagModal}
-        addTagOnSubmit={AddTag}
+        addTagOnSubmit={addTag}
         setShowAddTagModal={setShowAddTagModal}
       />
       <EditTagModal
@@ -224,10 +178,140 @@ export default function ToDoInfoPanel({
     </div>
   );
   /**
+   * Changes state of toDoItemName to what it has changed to
+   * @param event 
+   */
+  function toDoItemNameChangeHandler(event:React.ChangeEvent<HTMLInputElement>){
+    setToDoItemName(event.target.value);
+  }
+  /**
+   * Formats the date and returns it
+   * @param completeByDate
+   * @returns
+   */
+  function formateDateForDatePicker(completeByDate: Date) {
+    const formattedDate = format(completeByDate, "YYYY-MM-DD")?.toString();
+    // var localBrowserTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    // console.log(formattedDate);
+    return formattedDate;
+  }
+  /**
+   * Saves new date in correct format
+   * @param event
+   */
+  function saveNewDate(event: React.ChangeEvent<HTMLInputElement>) {
+    const st: string = event?.target.value.toString();
+    const splitDateString: string[] = st.split("-");
+    const year: number = parseInt(splitDateString[0]);
+    //We subtract a month because in Date January is 0 month
+    const month: number = parseInt(splitDateString[1]) - 1;
+
+    const day: number = parseInt(splitDateString[2]);
+    const correctedDate = new Date(year, month, day);
+    setIsToDoCompleteByDate(correctedDate);
+  }
+  /**
+   * Checks what priority was changed to and sets it in the toDoPriority state
+   * @param event
+   */
+  function priorityOnChangeHandler(
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) {
+    const priorityNum: number = parseInt(event.target.value);
+    switch (priorityNum) {
+      case 1:
+        setToDoPriority(Priority.Low);
+        break;
+      case 2:
+        setToDoPriority(Priority.Medium);
+        break;
+      case 3:
+        setToDoPriority(Priority.High);
+        break;
+      default:
+        setToDoPriority(Priority.None);
+        break;
+    }
+  }
+  /**
+   * Iterates the array of tags that was passed in
+   * @returns <option> that contains the tag name
+   */
+  function iterateTagList() {
+    return toDoTags.map((tag, i) => (
+      <option value={tag.name} key={i}>
+        {tag.name}
+      </option>
+    ));
+  }
+  /**
+   * When edit tag button is clicked this function is called to set the state of editTagModal to true
+   */
+  function editTagClickHandler() {
+    setShowEditTagModal(true);
+  }
+  /**
+   * Changes tag from current tag to default tag(N/A)
+   */
+  function revertTagClickHandler() {
+    setToDoTag(defaultTag);
+  }
+  /**
+   * Changes tag to whatever tag was changed to in the <select>
+   * @param event 
+   */
+  function tagOnChangeHandler(event: React.ChangeEvent<HTMLSelectElement>) {
+    const tagValue = event.target.value;
+    if (tagValue === "N/A") {
+      setToDoTag(defaultTag);
+    } else {
+      const tagIndex: number = toDoTags.findIndex(
+        (toDoTag) => toDoTag.name === tagValue
+      );
+      const tag = toDoTags[tagIndex];
+      setToDoTag(tag);
+    }
+  }
+  /**
+   * If add tag button was clicked then it will set teh addTagModal state to true
+   */
+  function addTagClickHandler() {
+    setShowAddTagModal(true);
+  }
+  /**
+   * adds tag to the tag array
+   * @param tag 
+   */
+  function addTag(tag: ToDoTag) {
+    const updatedTagArray: ToDoTag[] = [...toDoTags];
+    tag.id = updatedTagArray.length;
+    updatedTagArray.push(tag);
+    setToDoTags(updatedTagArray);
+
+    if (updatedTagArray.length === 1) {
+      setToDoTag(tag);
+    }
+  }
+  /**
+   * Changes the status (complete/not complete) of the current ToDo item
+   * @param event 
+   */
+  function statusOnChangeHandler(event: React.ChangeEvent<HTMLSelectElement>) {
+    const isCompletedNum: number = parseInt(event.target.value);
+    switch (isCompletedNum) {
+      case 1:
+        setToDoItemStatus(isCompleted.Completed);
+        break;
+      default:
+        setToDoItemStatus(isCompleted.NotCompleted);
+        break;
+    }
+  }
+  /**
    * Sends the updated toDo back up to Home (so it can be updated in list) and closes the panel
    * @param e
    */
-  function EditToDoFormSubmit(e: React.FormEvent<EventTarget>) {
+  function editToDoFormSubmit(e: React.FormEvent<EventTarget>) {
     e.preventDefault();
     const updatedToDo: Todo = {
       id: toDoItem.id,
@@ -243,59 +327,5 @@ export default function ToDoInfoPanel({
       updateToDo(updatedToDo);
     }
     setInfoPanelState(false);
-  }
-  /**
-   * Formats the date and returns it
-   * @param completeByDate
-   * @returns
-   */
-  function FormateDateForDatePicker(completeByDate: Date) {
-    const formattedDate = format(completeByDate, "YYYY-MM-DD")?.toString();
-    // var localBrowserTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    // console.log(formattedDate);
-    return formattedDate;
-  }
-  /**
-   * Saves new date in correct format
-   * @param event
-   */
-  function SaveNewDate(event: React.ChangeEvent<HTMLInputElement>) {
-    const st: string = event?.target.value.toString();
-    const splitDateString: string[] = st.split("-");
-    const year: number = parseInt(splitDateString[0]);
-    //We subtract a month because in Date January is 0 month
-    const month: number = parseInt(splitDateString[1]) - 1;
-
-    const day: number = parseInt(splitDateString[2]);
-    const correctedDate = new Date(year, month, day);
-    setIsToDoCompleteByDate(correctedDate);
-  }
-  function AddTagClickHandler() {
-    setShowAddTagModal(true);
-  }
-  function AddTag(tag: ToDoTag) {
-    const updatedTagArray: ToDoTag[] = [...toDoTags];
-    tag.id = updatedTagArray.length;
-    updatedTagArray.push(tag);
-    setToDoTags(updatedTagArray);
-
-    if (updatedTagArray.length === 1) {
-      setToDoTag(tag);
-    }
-  }
-  function IterateTagList() {
-    return toDoTags.map((tag, i) => (
-      <option value={tag.name} key={i}>
-        {tag.name}
-      </option>
-    ));
-  }
-  // This function would pop up a modal to edit tags
-  function EditTagClickHandler() {
-    setShowEditTagModal(true);
-  }
-  // This function will delete tag from todo
-  function RevertTagClickHandler() {
-    setToDoTag(defaultTag);
   }
 }

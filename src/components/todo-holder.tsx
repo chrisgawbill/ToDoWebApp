@@ -3,6 +3,7 @@ import { Row } from "react-bootstrap";
 import { Todo, isCompleted } from "../data/Todo";
 import ToDoRow from "./todo-row";
 import ToDoAddRow from "./todo-add-row";
+import HeaderRow from "./todo-header-row";
 
 interface ToDoHolderProps {
   toDoList: Todo[];
@@ -26,8 +27,8 @@ export default function ToDoHolder({
   const [completedToDos, setCompletedToDos] = useState<Todo[]>([]);
   const [uncompletedToDos, setUncompletedToDos] = useState<Todo[]>([]);
   useEffect(() => {
-    setCompletedToDos(FilterToDoList(toDoList, isCompleted.Completed));
-    setUncompletedToDos(FilterToDoList(toDoList, isCompleted.NotCompleted));
+    setCompletedToDos(filterToDoList(toDoList, isCompleted.Completed));
+    setUncompletedToDos(filterToDoList(toDoList, isCompleted.NotCompleted));
   }, [toDoList]);
   return (
     <div>
@@ -35,8 +36,9 @@ export default function ToDoHolder({
         <Row>
           <h2>Tasks To Do</h2>
         </Row>
+        <HeaderRow/>
         <Row>
-          {IterateToDoList(
+          {iterateToDoList(
             uncompletedToDos,
             setInfoPanelState,
             setCurrentToDoItem,
@@ -56,7 +58,7 @@ export default function ToDoHolder({
           <h2>Completed Tasks</h2>
         </Row>
         <Row>
-          {IterateToDoList(
+          {iterateToDoList(
             completedToDos,
             setInfoPanelState,
             setCurrentToDoItem,
@@ -76,7 +78,7 @@ export default function ToDoHolder({
  * @param setCurrentToDoItem
  * @returns ToDoRow Component
  */
-function IterateToDoList(
+function iterateToDoList(
   toDoList: Todo[],
   changeAddPanelState: Function,
   setCurrentToDoItem: Function,
@@ -97,7 +99,7 @@ function IterateToDoList(
     ></ToDoRow>
   ));
 }
-function FilterToDoList(toDoList: Todo[], filterBy: isCompleted) {
+function filterToDoList(toDoList: Todo[], filterBy: isCompleted) {
   const filteredList = toDoList.filter((toDo) => toDo.completed === filterBy);
   return filteredList;
 }

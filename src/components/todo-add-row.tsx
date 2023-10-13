@@ -12,7 +12,7 @@ export default function ToDoAddRow({
   rowOnClick,
 }: ToDoAddRowProps) {
   return (
-    <Row className="toDoRow" onClick={AddToDoClickHandler}>
+    <Row className="toDoRow" onClick={addToDoClickHandler}>
       <Col xs={2} lg={2}>
         <ToDoAddRowIcon/>
       </Col>
@@ -21,7 +21,7 @@ export default function ToDoAddRow({
       </Col>
     </Row>
   );
-  function AddToDoClickHandler() {
+  function addToDoClickHandler() {
     const toDo: Todo = new Todo(
       -1,
       "Add Title",

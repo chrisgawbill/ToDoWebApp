@@ -1,7 +1,6 @@
-import { Button, Col, Form, Modal, Row } from "react-bootstrap";
+import { Button, Modal} from "react-bootstrap";
 import { ToDoTag, defaultTag } from "../data/Tag";
 import { useEffect, useState } from "react";
-import { ToDoRowDeleteIcon } from "../assets/icons";
 import EditTagModalRow from "./todo-edit-tag-modal-row";
 
 interface EditTagModalProps {
@@ -26,35 +25,35 @@ export default function EditTagModal({
     setLocalTagArray(tagArray);
   }, [tagArray]);
   return (
-    <Modal show={showModal} onHide={HideModalHandler}>
+    <Modal show={showModal} onHide={hideModalHandler}>
       <Modal.Header>Edit Tags</Modal.Header>
-      <Modal.Body>{IterateTagList()}</Modal.Body>
+      <Modal.Body>{iterateTagList()}</Modal.Body>
       <Modal.Footer>
-        <Button variant="outline-success" onClick={SaveTagsClickHandler}>
+        <Button variant="outline-success" onClick={saveTagsClickHandler}>
           Save
         </Button>
-        <Button variant="outline-danger" onClick={HideModalHandler}>
+        <Button variant="outline-danger" onClick={hideModalHandler}>
           Close
         </Button>
       </Modal.Footer>
     </Modal>
   );
-  function IterateTagList() {
+  function iterateTagList() {
     return localTagArray.map((tag, i) => (
       <EditTagModalRow
         tag={tag}
         index={i}
         tagArray={localTagArray}
         setTagArray={setLocalTagArray}
-        setDeletedTagArray={DeleteTagHandler}
+        setDeletedTagArray={deleteTagHandler}
       />
     ));
   }
-  function HideModalHandler() {
+  function hideModalHandler() {
     setLocalTagArray(tagArray);
     setShowModal(false);
   }
-  function SaveTagsClickHandler() {
+  function saveTagsClickHandler() {
     setTagArray([...localTagArray]);
     if(localTagArray.length !== tagArray.length){
       setToDoTag(defaultTag)
@@ -62,7 +61,7 @@ export default function EditTagModal({
     }
     setShowModal(false);
   }
-  function DeleteTagHandler(tag:ToDoTag){
+  function deleteTagHandler(tag:ToDoTag){
     const updatedDeletedTagArray = [...deletedTagArray]
     updatedDeletedTagArray.push(tag)
     setDeletedTagArray(updatedDeletedTagArray)
