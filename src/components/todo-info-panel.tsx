@@ -180,27 +180,6 @@ export default function ToDoInfoPanel({
     </div>
   );
   /**
-   * Sends the updated toDo back up to Home (so it can be updated in list) and closes the panel
-   * @param e
-   */
-  function editToDoFormSubmit(e: React.FormEvent<EventTarget>) {
-    e.preventDefault();
-    const updatedToDo: Todo = {
-      id: toDoItem.id,
-      name: toDoItemName,
-      tag: toDoTag,
-      completeByDate: toDoCompleteByDate,
-      priority: toDoPriority,
-      completed: toDoItemStatus,
-    };
-    if (updatedToDo.id === -1) {
-      addToDo(updatedToDo);
-    } else {
-      updateToDo(updatedToDo);
-    }
-    setInfoPanelState(false);
-  }
-  /**
    * Formats the date and returns it
    * @param completeByDate
    * @returns
@@ -226,51 +205,13 @@ export default function ToDoInfoPanel({
     const correctedDate = new Date(year, month, day);
     setIsToDoCompleteByDate(correctedDate);
   }
-  function addTagClickHandler() {
-    setShowAddTagModal(true);
-  }
-  function addTag(tag: ToDoTag) {
-    const updatedTagArray: ToDoTag[] = [...toDoTags];
-    tag.id = updatedTagArray.length;
-    updatedTagArray.push(tag);
-    setToDoTags(updatedTagArray);
-
-    if (updatedTagArray.length === 1) {
-      setToDoTag(tag);
-    }
-  }
   /**
-   * 
-   * @returns <option> that contains the tag name
+   * Checks what priority was changed to and sets it in the toDoPriority state
+   * @param event
    */
-  function iterateTagList() {
-    return toDoTags.map((tag, i) => (
-      <option value={tag.name} key={i}>
-        {tag.name}
-      </option>
-    ));
-  }
-  // This function would pop up a modal to edit tags
-  function editTagClickHandler() {
-    setShowEditTagModal(true);
-  }
-  // This function will delete tag from todo
-  function revertTagClickHandler() {
-    setToDoTag(defaultTag);
-  }
-  function tagOnChangeHandler(event:React.ChangeEvent<HTMLSelectElement>){
-    const tagValue = event.target.value;
-    if (tagValue === "N/A") {
-      setToDoTag(defaultTag);
-    } else {
-      const tagIndex: number = toDoTags.findIndex(
-        (toDoTag) => toDoTag.name === tagValue
-      );
-      const tag = toDoTags[tagIndex];
-      setToDoTag(tag);
-    }
-  }
-  function priorityOnChangeHandler(event:React.ChangeEvent<HTMLSelectElement>){
+  function priorityOnChangeHandler(
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) {
     const priorityNum: number = parseInt(event.target.value);
     switch (priorityNum) {
       case 1:
@@ -287,7 +228,70 @@ export default function ToDoInfoPanel({
         break;
     }
   }
-  function statusOnChangeHandler(event:React.ChangeEvent<HTMLSelectElement>){
+  /**
+   * Iterates the array of tags that was passed in
+   * @returns <option> that contains the tag name
+   */
+  function iterateTagList() {
+    return toDoTags.map((tag, i) => (
+      <option value={tag.name} key={i}>
+        {tag.name}
+      </option>
+    ));
+  }
+  /**
+   * When edit tag button is clicked this function is called to set the state of editTagModal to true
+   */
+  function editTagClickHandler() {
+    setShowEditTagModal(true);
+  }
+  /**
+   * Changes tag from current tag to default tag(N/A)
+   */
+  function revertTagClickHandler() {
+    setToDoTag(defaultTag);
+  }
+  /**
+   * Changes tag to whatever tag was changed to in the <select>
+   * @param event 
+   */
+  function tagOnChangeHandler(event: React.ChangeEvent<HTMLSelectElement>) {
+    const tagValue = event.target.value;
+    if (tagValue === "N/A") {
+      setToDoTag(defaultTag);
+    } else {
+      const tagIndex: number = toDoTags.findIndex(
+        (toDoTag) => toDoTag.name === tagValue
+      );
+      const tag = toDoTags[tagIndex];
+      setToDoTag(tag);
+    }
+  }
+  /**
+   * If add tag button was clicked then it will set teh addTagModal state to true
+   */
+  function addTagClickHandler() {
+    setShowAddTagModal(true);
+  }
+  /**
+   * adds tag to the tag array
+   * @param tag 
+   */
+  function addTag(tag: ToDoTag) {
+    const updatedTagArray: ToDoTag[] = [...toDoTags];
+    tag.id = updatedTagArray.length;
+    updatedTagArray.push(tag);
+    setToDoTags(updatedTagArray);
+
+    if (updatedTagArray.length === 1) {
+      setToDoTag(tag);
+    }
+  }
+  /**
+   * Changes the status (complete/not complete) of the current ToDo item
+   * @param event 
+   */
+  function statusOnChangeHandler(event: React.ChangeEvent<HTMLSelectElement>) {
     const isCompletedNum: number = parseInt(event.target.value);
     switch (isCompletedNum) {
       case 1:
@@ -297,5 +301,26 @@ export default function ToDoInfoPanel({
         setToDoItemStatus(isCompleted.NotCompleted);
         break;
     }
+  }
+  /**
+   * Sends the updated toDo back up to Home (so it can be updated in list) and closes the panel
+   * @param e
+   */
+  function editToDoFormSubmit(e: React.FormEvent<EventTarget>) {
+    e.preventDefault();
+    const updatedToDo: Todo = {
+      id: toDoItem.id,
+      name: toDoItemName,
+      tag: toDoTag,
+      completeByDate: toDoCompleteByDate,
+      priority: toDoPriority,
+      completed: toDoItemStatus,
+    };
+    if (updatedToDo.id === -1) {
+      addToDo(updatedToDo);
+    } else {
+      updateToDo(updatedToDo);
+    }
+    setInfoPanelState(false);
   }
 }
