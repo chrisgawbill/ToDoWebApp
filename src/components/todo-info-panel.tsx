@@ -73,9 +73,7 @@ export default function ToDoInfoPanel({
                   id="todo-name-field"
                   value={toDoItemName}
                   style={{ border: "none", width: "100%" }}
-                  onChange={(event) => {
-                    setToDoItemName(event.target.value);
-                  }}
+                  onChange={toDoItemNameChangeHandler}
                 />
               </Row>
               <Form.Group className="edit-panel-row">
@@ -179,6 +177,13 @@ export default function ToDoInfoPanel({
       />
     </div>
   );
+  /**
+   * Changes state of toDoItemName to what it has changed to
+   * @param event 
+   */
+  function toDoItemNameChangeHandler(event:React.ChangeEvent<HTMLInputElement>){
+    setToDoItemName(event.target.value);
+  }
   /**
    * Formats the date and returns it
    * @param completeByDate
