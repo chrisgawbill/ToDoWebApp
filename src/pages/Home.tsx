@@ -4,7 +4,7 @@ import { Col, Row } from "react-bootstrap";
 import ToDoInfoPanel from "../components/todo-info-panel";
 import ToDoHolder from "../components/todo-holder";
 import { GetAllToDos } from "../data/services/todo-api";
-import { ToDoTag, defaultTag } from "../data/Tag";
+import { ToDoTag, defaultTag } from "../data/ToDoTag";
 /**
  *
  * @returns HomePage with Components loaded
