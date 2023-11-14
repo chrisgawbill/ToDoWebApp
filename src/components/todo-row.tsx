@@ -1,5 +1,5 @@
-import { Col, Row } from "react-bootstrap";
-import { Todo, isCompleted } from "../data/Todo";
+import { Badge, Col, Row } from "react-bootstrap";
+import { Todo, isCompleted } from "../data/ToDo";
 import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import "../styles/components/todo-row.css";
@@ -29,7 +29,7 @@ export default function ToDoRow({
   }, [toDoItem.completed]);
   return (
     <Row className="toDoRow">
-      <Col xs={2} lg={2}>
+      <Col xs={1} lg={1}>
         <input
           type="checkbox"
           checked={isToDoCompleted}
@@ -43,14 +43,18 @@ export default function ToDoRow({
           }}
         ></input>
       </Col>
-      <Col xs={4} lg={6} onClick={RowOnClickBasicHandler}>
+      <Col xs={4} lg={5} onClick={rowOnClickBasicHandler}>
         {toDoItem.name}
       </Col>
-      <Col xs={2} lg={2} onClick={RowOnClickBasicHandler}>
+      <Col xs={2} lg={1}>
+          {rowPriorityDisplayHandler()}
+      </Col>
+      <Col xs={2} lg={1}>{rowTagDisplayHandler()}</Col>
+      <Col xs={2} lg={2} onClick={rowOnClickBasicHandler}>
         {toDoItem.completeByDate.toLocaleDateString()}
       </Col>
-      <Col xs={4} lg={2}>
-        <Button variant="outline-danger" size="sm" onClick={DeleteOnClick}>
+      <Col xs={1} lg={2}>
+        <Button variant="outline-danger" size="sm" title="Delete ToDo" onClick={deleteOnClick}>
           <ToDoRowDeleteIcon />
         </Button>
       </Col>
@@ -59,15 +63,35 @@ export default function ToDoRow({
   /**
    * Handles the delete icon onClick event. Deletes row and closes panel
    */
-  function DeleteOnClick() {
+  function deleteOnClick() {
     deleteToDo(toDoItem.id);
     rowOnClick(false);
   }
   /**
    * Handles a basic on click
    */
-  function RowOnClickBasicHandler() {
+  function rowOnClickBasicHandler() {
     rowOnClick(true);
     currentToDoSelected(toDoItem);
+  }
+  function rowTagDisplayHandler(){
+    const tag = toDoItem.tag
+    if(tag.name === "N/A"){
+      return <></>
+    }
+    return <Badge pill bg="light" style={{color:toDoItem.tag.color}}>{toDoItem.tag.name}</Badge>
+  }
+  function rowPriorityDisplayHandler(){
+    const priority = toDoItem.priority
+    switch(priority){
+      case 1:
+        return <Badge pill bg="secondary">Low</Badge>
+      case 2:
+        return <Badge pill bg="warning">Medium</Badge>
+      case 3:
+        return <Badge pill bg="danger">High</Badge>
+      default:
+        return <></>
+    }
   }
 }

@@ -5,3 +5,4 @@ export class ToDoTag{
         this.color = color;
     }
 }
+export const defaultTag = new ToDoTag(-1, "N/A", "#000000");

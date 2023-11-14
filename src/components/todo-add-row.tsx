@@ -1,7 +1,8 @@
 import { Col, Row } from "react-bootstrap";
-import { Todo, isCompleted } from "../data/Todo";
+import { Todo, isCompleted, Priority } from "../data/ToDo";
 import "../styles/components/todo-row.css";
 import { ToDoAddRowIcon } from "../assets/icons";
+import { ToDoTag } from "../data/Tag";
 interface ToDoAddRowProps {
   currentToDoSelected: Function;
   rowOnClick: Function;
@@ -11,7 +12,7 @@ export default function ToDoAddRow({
   rowOnClick,
 }: ToDoAddRowProps) {
   return (
-    <Row className="toDoRow" onClick={AddToDoClickHandler}>
+    <Row className="toDoRow" onClick={addToDoClickHandler}>
       <Col xs={2} lg={2}>
         <ToDoAddRowIcon/>
       </Col>
@@ -20,11 +21,13 @@ export default function ToDoAddRow({
       </Col>
     </Row>
   );
-  function AddToDoClickHandler() {
+  function addToDoClickHandler() {
     const toDo: Todo = new Todo(
       -1,
       "Add Title",
+      new ToDoTag(-1,"",""),
       new Date(),
+      Priority.None,
       isCompleted.NotCompleted
     );
     currentToDoSelected(toDo);
