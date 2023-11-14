@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import { ToDoTag } from "../data/Tag";
+import { ToDoTag } from "../data/ToDoTag";
 interface ToDoAddTagModalProps{
     showModal:boolean,
     addTagOnSubmit:Function,

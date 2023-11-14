@@ -5,7 +5,7 @@ import { Todo, isCompleted } from "../data/Todo";
 import { useEffect, useState } from "react";
 import "../styles/components/todo-info-panel.css";
 import ToDoAddTagModal from "./todo-add-tag-modal";
-import { ToDoTag } from "../data/Tag";
+import { ToDoTag } from "../data/ToDoTag";
 
 interface ToDoInfoPanelProps {
   toDoItem: Todo;
